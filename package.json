@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "rebuild": "git pull & next build & pm2 reload server-status"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
