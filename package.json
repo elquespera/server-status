@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "rebuild": "git pull & npm i & next build & pm2 reload server-status"
+    "rebuild": "git pull && npm i && next build && pm2 reload server-status"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
