@@ -26,7 +26,13 @@ export function MemInfo({ barRadius = 3, ...props }: MemInfoProps) {
 
   return (
     <div {...props}>
-      <Heading>Memory</Heading>
+      <div className="grid grid-cols-2 items-baseline gap-2">
+        <Heading>Memory</Heading>
+        <span className="text-end font-mono text-sm">
+          <span className="font-bold italic">Total:</span>{" "}
+          {humanFileSize(totalMem, false, 2)}
+        </span>
+      </div>
       <div className="relative w-full overflow-hidden pl-4">
         <ChartContainer config={chartConfig} className="h-12 w-full">
           <BarChart data={chartData} layout="vertical" barSize={30}>
@@ -43,8 +49,8 @@ export function MemInfo({ barRadius = 3, ...props }: MemInfoProps) {
               radius={[0, barRadius, barRadius, 0]}
             />
 
-            <YAxis dataKey="free" type="category" hide />
-            <XAxis dataKey="free" type="number" hide />
+            <YAxis type="category" hide />
+            <XAxis type="number" hide domain={[0, totalMem]} />
           </BarChart>
         </ChartContainer>
         <div
@@ -52,7 +58,9 @@ export function MemInfo({ barRadius = 3, ...props }: MemInfoProps) {
           style={{ color: `hsl(${chartConfig.memory.color})` }}
         >
           <span>{humanFileSize(chartData[0].inUse, false, 2)}</span>
-          <span className="text-end">{humanFileSize(totalMem, false, 2)}</span>
+          <span className="text-end">
+            {humanFileSize(chartData[0].free, false, 2)}
+          </span>
         </div>
       </div>
     </div>
