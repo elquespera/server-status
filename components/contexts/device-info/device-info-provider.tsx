@@ -19,28 +19,33 @@ export function DeviceInfoProvider({
   const [deviceStats, setDeviceStats] = useState<DeviceStats>();
 
   useEffect(() => {
-    let previousInfo: DeviceStats;
+    let timer: NodeJS.Timeout | undefined;
 
-    const timer = setInterval(async () => {
-      const info = await getDeviceStats();
+    (async () => {
+      let previousInfo = await getDeviceStats();
+      setDeviceStats(previousInfo);
 
-      if (!previousInfo || !info) {
+      timer = setInterval(async () => {
+        const info = await getDeviceStats();
+
+        if (!previousInfo || !info) {
+          previousInfo = info;
+          return;
+        }
+
+        setCpus(
+          previousInfo?.cpus.map(({ times, model, speed }, index) => ({
+            model,
+            speed,
+            usage: calcCpuUsage(times, info.cpus[index].times),
+          }))
+        );
+
+        setDeviceStats(info);
+
         previousInfo = info;
-        return;
-      }
-
-      setCpus(
-        previousInfo?.cpus.map(({ times, model, speed }, index) => ({
-          model,
-          speed,
-          usage: calcCpuUsage(times, info.cpus[index].times),
-        }))
-      );
-
-      setDeviceStats(info);
-
-      previousInfo = info;
-    }, interval);
+      }, interval);
+    })();
 
     return () => clearInterval(timer);
   }, [interval]);

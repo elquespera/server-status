@@ -5,7 +5,7 @@ import { OsInfo } from "@/components/os-info";
 
 export default function Home() {
   return (
-    <DeviceInfoProvider>
+    <DeviceInfoProvider interval={Number(process.env.UPDATE_INTERVAL) ?? 1000}>
       <main className="min-h-[100vh] flex flex-col justify-center p-4 sm:p-8">
         <div>
           <h3 className="text-lg font-bold tracking-tighter">CPU</h3>
