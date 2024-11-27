@@ -10,11 +10,11 @@ export default function Home() {
     >
       <main className="flex min-h-[100vh] flex-col items-center p-4 sm:p-8">
         <div className="w-full max-w-screen-sm">
-          <h3 className="text-lg font-bold tracking-tighter">CPU</h3>
-          <CPUInfo />
-          <h3 className="text-lg font-bold tracking-tighter">Memory</h3>
-          <MemInfo />
           <OsInfo />
+          <h3 className="mt-4 text-lg font-bold tracking-tighter">CPU</h3>
+          <CPUInfo />
+          <h3 className="mt-4 text-lg font-bold tracking-tighter">Memory</h3>
+          <MemInfo />
         </div>
       </main>
     </DeviceInfoProvider>

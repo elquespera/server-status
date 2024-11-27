@@ -22,22 +22,14 @@ export function CPUInfo({ barRadius = 3 }: CPUInfoProps) {
   return (
     <div className="relative w-full overflow-hidden pl-4">
       <ChartContainer config={chartConfig} className="w-full">
-        <BarChart
-          className="relative"
-          accessibilityLayer
-          data={chartData}
-          layout="vertical"
-          barSize={50}
-        >
+        <BarChart data={chartData} layout="vertical" barSize={50}>
           <Bar
-            layout="vertical"
             stackId={0}
             dataKey="usage"
             fill="hsl(var(--color-cpu))"
             radius={[barRadius, 0, 0, barRadius]}
           />
           <Bar
-            layout="vertical"
             stackId={0}
             dataKey="available"
             fill="hsl(var(--color-cpu)/0.3)"
@@ -45,7 +37,7 @@ export function CPUInfo({ barRadius = 3 }: CPUInfoProps) {
           />
 
           <YAxis dataKey="usage" type="category" hide />
-          <XAxis type="number" dataKey="usage" domain={[0, 100]} hide />
+          <XAxis dataKey="usage" type="number" domain={[0, 100]} hide />
         </BarChart>
       </ChartContainer>
       <div
