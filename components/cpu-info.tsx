@@ -14,6 +14,6 @@ export async function CPUInfo() {
 
 type CPUProps = { info: CPUData };
 
-function CPU({ info: { model, usage } }: CPUProps) {
+function CPU({ info: { usage } }: CPUProps) {
   return <li>{usage.toFixed(2)}%</li>;
 }

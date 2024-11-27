@@ -13,7 +13,7 @@ export function PageReload({ interval = 500 }: PageReloadProps) {
     }, interval);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [interval, router]);
 
   return null;
 }
