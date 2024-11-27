@@ -19,7 +19,7 @@ export function OsInfo() {
         <span className="font-semibold capitalize">{platform}</span>{" "}
         <i className="text-sm italic">{arch}</i>
       </span>
-      <pre className="text-end font-mono text-sm">
+      <pre className="text-end font-mono text-xs md:text-sm">
         <span className="font-bold italic">UP: </span>
         {days > 0 && (
           <span>

@@ -20,9 +20,19 @@ export function CPUInfo({ barRadius = 3, ...props }: CPUInfoProps) {
     available: 100 - usage,
   }));
 
+  const cpuModel = cpus[0]?.model === "unknown" ? "" : cpus[0]?.model;
+  const cpuCount = cpus.length;
+
   return (
     <div {...props}>
-      <Heading>CPU</Heading>
+      <div className="grid grid-cols-[auto,1fr] items-baseline gap-2">
+        <Heading>CPU</Heading>
+        {cpuCount && (
+          <p className="break truncate text-end font-mono text-xs md:text-sm">
+            {cpuCount}x {cpuModel}
+          </p>
+        )}
+      </div>
       <div className="relative w-full overflow-hidden pl-4">
         <ChartContainer config={chartConfig} className="w-full">
           <BarChart data={chartData} layout="vertical" barSize={50}>

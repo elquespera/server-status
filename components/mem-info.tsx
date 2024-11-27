@@ -28,7 +28,7 @@ export function MemInfo({ barRadius = 3, ...props }: MemInfoProps) {
     <div {...props}>
       <div className="grid grid-cols-2 items-baseline gap-2">
         <Heading>Memory</Heading>
-        <span className="text-end font-mono text-sm">
+        <span className="text-end font-mono text-xs md:text-sm">
           <span className="font-bold italic">Total:</span>{" "}
           {humanFileSize(totalMem, false, 2)}
         </span>
