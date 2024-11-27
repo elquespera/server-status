@@ -1,7 +1,7 @@
 import { getCPUStats } from "@/lib/get-cpu-stats";
 
-export function CPUInfo() {
-  const info = getCPUStats();
+export async function CPUInfo() {
+  const info = await getCPUStats();
 
   return <div>{JSON.stringify(info, null, 2)}</div>;
 }

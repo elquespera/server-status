@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "rebuild": "git pull && npm i && next build && pm2 reload server-status"
+    "rebuild": "git reset --hard && git pull && npm i && next build && pm2 reload server-status"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
