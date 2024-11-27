@@ -9,14 +9,17 @@ type DeviceInfoProviderProps = {
   interval?: number;
 } & PropsWithChildren;
 
+type DeviceStats = Awaited<ReturnType<typeof getDeviceStats>>;
+
 export function DeviceInfoProvider({
   interval = 1000,
   children,
 }: DeviceInfoProviderProps) {
   const [cpus, setCpus] = useState<CPUData[]>([]);
+  const [deviceStats, setDeviceStats] = useState<DeviceStats>();
 
   useEffect(() => {
-    let previousInfo: Awaited<ReturnType<typeof getDeviceStats>>;
+    let previousInfo: DeviceStats;
 
     const timer = setInterval(async () => {
       const info = await getDeviceStats();
@@ -34,6 +37,8 @@ export function DeviceInfoProvider({
         }))
       );
 
+      setDeviceStats(info);
+
       previousInfo = info;
     }, interval);
 
@@ -41,7 +46,14 @@ export function DeviceInfoProvider({
   }, [interval]);
 
   return (
-    <DeviceInfoContext.Provider value={{ cpus }}>
+    <DeviceInfoContext.Provider
+      value={{
+        cpus,
+        totalMem: deviceStats?.totalMem ?? 0,
+        freeMem: deviceStats?.freeMem ?? 0,
+        uptime: deviceStats?.uptime ?? 0,
+      }}
+    >
       {children}
     </DeviceInfoContext.Provider>
   );

@@ -2,7 +2,7 @@
 
 import util from "node:util";
 import { exec as execSync } from "child_process";
-import { CpuInfo, freemem, totalmem } from "node:os";
+import { CpuInfo, freemem, totalmem, uptime } from "node:os";
 
 const exec = util.promisify(execSync);
 
@@ -24,5 +24,6 @@ export async function getDeviceStats() {
       cpus,
       totalMem: totalmem(),
       freeMem: freemem(),
+      uptime: uptime(),
     };
 }
