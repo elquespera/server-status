@@ -1,15 +1,16 @@
-import { CPUData, getCPUStats } from "@/lib/get-cpu-stats";
+"use client";
+import { useDeviceInfo } from "./contexts/device-info/device-info-context";
 
-export async function CPUInfo() {
-  const info = await getCPUStats();
+export function CPUInfo() {
+  const { cpus } = useDeviceInfo();
 
-  return info ? (
+  return (
     <ul>
-      {info.cpus.map((cpu, index) => (
+      {cpus.map((cpu, index) => (
         <CPU key={index} info={cpu} />
       ))}
     </ul>
-  ) : null;
+  );
 }
 
 type CPUProps = { info: CPUData };
