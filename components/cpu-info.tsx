@@ -60,7 +60,7 @@ export function CPUInfo({ barRadius = 3, ...props }: CPUInfoProps) {
           {cpus.map(({ usage, speed }, index) => (
             <Fragment key={index}>
               <span>{index + 1}</span>
-              <span>{Math.round(usage * 10) / 10}</span>
+              <span>{usage.toFixed(1)}</span>
               <span>{(speed / 1000).toFixed(2)}GHz</span>
             </Fragment>
           ))}

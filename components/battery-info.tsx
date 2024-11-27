@@ -11,7 +11,7 @@ type BatteryInfoProps = {
 } & ComponentProps<"div">;
 
 const chartConfig = {
-  battery: { color: "var(--chart-3)" },
+  battery: { color: "var(--chart-4)" },
 } satisfies ChartConfig;
 
 export function BatteryInfo({ barRadius = 3, ...props }: BatteryInfoProps) {
@@ -32,6 +32,8 @@ export function BatteryInfo({ barRadius = 3, ...props }: BatteryInfoProps) {
         <Heading>Battery</Heading>
         <span className="text-end font-mono text-xs md:text-sm">
           {battery.status === "FULL" ? "Charged" : null}
+          {", "}
+          {battery.temperature.toFixed(1)}&deg;
         </span>
       </div>
       <div className="relative w-full overflow-hidden pl-4">

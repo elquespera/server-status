@@ -26,6 +26,7 @@ export async function getDeviceInfo() {
     try {
       const { stdout: batteryRaw } = await exec("termux-battery-status");
       battery = JSON.parse(batteryRaw);
+      // battery = mockBattery;
     } catch (error) {
       console.error(error);
     }
@@ -44,7 +45,7 @@ export async function getDeviceInfo() {
 
 // const mockBattery: TermuxBattery = {
 //   health: "GOOD",
-//   percentage: 60,
+//   percentage: 100,
 //   plugged: "PLUGGED_AC",
 //   status: "FULL",
 //   temperature: 28,
