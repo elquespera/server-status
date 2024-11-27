@@ -1,32 +1,41 @@
 "use client";
 
-import { calcCpuUsage } from "@/lib/device-info/cpu-usage";
-import { getDeviceStats } from "@/lib/device-info/device-stats";
+import { calcCpuUsage } from "@/lib/device-info/calc-cpu-usage";
+import { getDeviceInfo } from "@/lib/device-info/get-device-info";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { DeviceInfoContext } from "./device-info-context";
+import { getCpuInfo } from "@/lib/device-info/get-cpu-info";
 
 type DeviceInfoProviderProps = {
-  interval?: number;
+  updateFrequency?: number;
+  cpuUpdateFrequency?: number;
 } & PropsWithChildren;
 
-type DeviceStats = Awaited<ReturnType<typeof getDeviceStats>>;
+type DeviceStats = Awaited<ReturnType<typeof getDeviceInfo>>;
 
 export function DeviceInfoProvider({
-  interval = 1000,
+  updateFrequency = 1000,
+  cpuUpdateFrequency = 1000,
   children,
 }: DeviceInfoProviderProps) {
   const [cpus, setCpus] = useState<CPUData[]>([]);
   const [deviceStats, setDeviceStats] = useState<DeviceStats>();
 
+  //Update CPU usage
   useEffect(() => {
     let timer: NodeJS.Timeout | undefined;
 
     (async () => {
-      let previousInfo = await getDeviceStats();
-      setDeviceStats(previousInfo);
+      let previousInfo = await getCpuInfo();
+
+      //Set initial usage to 0%
+      setCpus(
+        previousInfo?.map(({ model, speed }) => ({ model, speed, usage: 0 })) ??
+          [],
+      );
 
       timer = setInterval(async () => {
-        const info = await getDeviceStats();
+        const info = await getCpuInfo();
 
         if (!previousInfo || !info) {
           previousInfo = info;
@@ -34,21 +43,32 @@ export function DeviceInfoProvider({
         }
 
         setCpus(
-          previousInfo?.cpus.map(({ times, model, speed }, index) => ({
+          previousInfo?.map(({ times, model, speed }, index) => ({
             model,
             speed,
-            usage: calcCpuUsage(times, info.cpus[index].times),
-          }))
+            usage: calcCpuUsage(times, info[index].times),
+          })),
         );
 
-        setDeviceStats(info);
-
         previousInfo = info;
-      }, interval);
+      }, cpuUpdateFrequency);
     })();
 
     return () => clearInterval(timer);
-  }, [interval]);
+  }, [cpuUpdateFrequency]);
+
+  // Update other info
+  useEffect(() => {
+    const updateInfo = async () => {
+      const info = await getDeviceInfo();
+      setDeviceStats(info);
+    };
+
+    updateInfo();
+    const timer = setInterval(() => updateInfo(), updateFrequency);
+
+    return () => clearInterval(timer);
+  }, [updateFrequency]);
 
   return (
     <DeviceInfoContext.Provider

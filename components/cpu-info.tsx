@@ -1,5 +1,6 @@
 "use client";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
+import { Fragment } from "react";
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
 import { useDeviceInfo } from "./contexts/device-info/device-info-context";
 
@@ -8,7 +9,7 @@ type CPUInfoProps = {
 };
 
 const chartConfig = {
-  cpu: { color: "49 155 145" },
+  cpu: { color: "var(--chart-2)" },
 } satisfies ChartConfig;
 
 export function CPUInfo({ barRadius = 3 }: CPUInfoProps) {
@@ -19,8 +20,8 @@ export function CPUInfo({ barRadius = 3 }: CPUInfoProps) {
   }));
 
   return (
-    <div className="relative overflow-hidden pl-4">
-      <ChartContainer config={chartConfig} className="w-full max-w-screen-sm">
+    <div className="relative w-full overflow-hidden pl-4">
+      <ChartContainer config={chartConfig} className="w-full">
         <BarChart
           className="relative"
           accessibilityLayer
@@ -32,14 +33,14 @@ export function CPUInfo({ barRadius = 3 }: CPUInfoProps) {
             layout="vertical"
             stackId={0}
             dataKey="usage"
-            fill="rgb(var(--color-cpu))"
+            fill="hsl(var(--color-cpu))"
             radius={[barRadius, 0, 0, barRadius]}
           />
           <Bar
             layout="vertical"
             stackId={0}
             dataKey="available"
-            fill="rgb(var(--color-cpu)/0.3)"
+            fill="hsl(var(--color-cpu)/0.3)"
             radius={[0, barRadius, barRadius, 0]}
           />
 
@@ -47,16 +48,16 @@ export function CPUInfo({ barRadius = 3 }: CPUInfoProps) {
           <XAxis type="number" dataKey="usage" domain={[0, 100]} hide />
         </BarChart>
       </ChartContainer>
-      <div className="absolute inset-0 grid items-center py-1 pl-8 font-mono text-xs text-[rgb(206_100_110)] mix-blend-difference md:text-sm">
-        {cpus.map(({ usage }, index) => (
-          <span key={index}>{Math.round(usage * 10) / 10}</span>
-        ))}
-      </div>
-      <div className="absolute inset-0 grid w-8 items-center justify-end px-4 py-1 font-mono text-xs text-muted-foreground md:text-sm">
-        {cpus.map((_, index) => (
-          <span key={index} className="text-end">
-            {index + 1}
-          </span>
+      <div
+        className="absolute inset-0 grid grid-cols-[2.5em,1fr,auto] items-center py-1 pr-4 font-mono text-xs mix-blend-difference invert md:text-sm"
+        style={{ color: `hsl(${chartConfig.cpu.color})` }}
+      >
+        {cpus.map(({ usage, speed }, index) => (
+          <Fragment key={index}>
+            <span>{index + 1}</span>
+            <span>{Math.round(usage * 10) / 10}</span>
+            <span>{(speed / 1000).toFixed(2)}GHz</span>
+          </Fragment>
         ))}
       </div>
     </div>
