@@ -62,9 +62,3 @@ export function CPUInfo({ barRadius = 3 }: CPUInfoProps) {
     </div>
   );
 }
-
-type CPUProps = { info: CPUData };
-
-function CPU({ info: { usage } }: CPUProps) {
-  return <li>{usage.toFixed(2)}%</li>;
-}

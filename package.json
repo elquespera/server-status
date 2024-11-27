@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "check": "tsc && next lint",
+    "check": "next lint && tsc",
     "rebuild": "git reset --hard && git pull && npm i && next build && pm2 reload server-status"
   },
   "dependencies": {
