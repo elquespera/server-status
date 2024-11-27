@@ -29,10 +29,11 @@ export function BatteryInfo({ barRadius = 3, ...props }: BatteryInfoProps) {
   return (
     <div {...props}>
       <div className="grid grid-cols-2 items-baseline gap-2">
-        <Heading>Battery</Heading>
+        <div className="flex items-baseline gap-[1ch]">
+          <Heading>Battery</Heading>
+          <span className="text-xs italic md:text-sm">{battery.status}</span>
+        </div>
         <span className="text-end font-mono text-xs md:text-sm">
-          {battery.status === "FULL" ? "Charged" : null}
-          {", "}
           {battery.temperature.toFixed(1)}&deg;
         </span>
       </div>

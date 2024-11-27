@@ -45,8 +45,8 @@ export async function getDeviceInfo() {
 
 // const mockBattery: TermuxBattery = {
 //   health: "GOOD",
-//   percentage: 100,
-//   plugged: "PLUGGED_AC",
+//   percentage: 99,
+//   plugged: "UNPLUGGED",
 //   status: "FULL",
 //   temperature: 28,
 //   current: 0,
