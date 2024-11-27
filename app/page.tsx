@@ -8,12 +8,10 @@ export default function Home() {
     <DeviceInfoProvider
       updateFrequency={Number(process.env.UPDATE_FREQUENCY) ?? 1000}
     >
-      <main className="flex min-h-[100vh] flex-col items-center p-4 sm:p-8">
-        <div className="w-full max-w-screen-sm">
+      <main className="flex flex-col items-center p-4 sm:p-8">
+        <div className="md: flex w-full max-w-screen-sm flex-col gap-4 gap-6">
           <OsInfo />
-          <h3 className="mt-4 text-lg font-bold tracking-tighter">CPU</h3>
           <CPUInfo />
-          <h3 className="mt-4 text-lg font-bold tracking-tighter">Memory</h3>
           <MemInfo />
         </div>
       </main>

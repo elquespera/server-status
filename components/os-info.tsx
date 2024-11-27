@@ -2,7 +2,7 @@
 import { useDeviceInfo } from "./contexts/device-info/device-info-context";
 
 export function OsInfo() {
-  const { uptime } = useDeviceInfo();
+  const { uptime, platform, arch } = useDeviceInfo();
 
   if (!uptime) return null;
 
@@ -11,17 +11,22 @@ export function OsInfo() {
   const seconds = formatTime(uptime % 60);
   const minutes = formatTime((uptime / 60) % 60);
   const hours = formatTime((uptime / 3600) % 24);
-  const days = formatTime((uptime / 86400) % 3600);
+  const days = Math.floor((uptime / 86400) % 3600);
 
   return (
-    <div className="grid grid-cols-2">
-      <span>Uptime:</span>
-      <pre>
-        {days}
-        <span className="text-sm">d</span> {hours}
-        <span className="text-sm">h</span> {minutes}
-        <span className="text-sm">m</span> {seconds}
-        <span className="text-sm">s</span>
+    <div className="grid grid-cols-2 items-baseline gap-2">
+      <span>
+        <span className="font-semibold capitalize">{platform}</span>{" "}
+        <i className="text-sm italic">({arch})</i>
+      </span>
+      <pre className="text-end font-mono text-sm">
+        <span className="font-bold italic">UP: </span>
+        {days > 0 && (
+          <span>
+            {days} {days === 1 ? "day" : "days"},{" "}
+          </span>
+        )}
+        {hours}:{minutes}:{seconds}
       </pre>
     </div>
   );

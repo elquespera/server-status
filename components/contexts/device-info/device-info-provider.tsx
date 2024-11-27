@@ -80,6 +80,8 @@ export function DeviceInfoProvider({
         totalMem: deviceStats?.totalMem ?? 0,
         freeMem: deviceStats?.freeMem ?? 0,
         uptime: Math.floor(uptime + elapsedTime),
+        platform: deviceStats?.platform ?? "",
+        arch: deviceStats?.arch ?? "",
       }}
     >
       {children}

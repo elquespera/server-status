@@ -5,6 +5,8 @@ type TDeviceInfoContext = {
   totalMem: number;
   freeMem: number;
   uptime: number;
+  platform: string;
+  arch: string;
 };
 
 const defaultDeviceInfoContext: TDeviceInfoContext = {
@@ -12,6 +14,8 @@ const defaultDeviceInfoContext: TDeviceInfoContext = {
   totalMem: 0,
   freeMem: 0,
   uptime: 0,
+  platform: "",
+  arch: "",
 };
 
 export const DeviceInfoContext = createContext(defaultDeviceInfoContext);

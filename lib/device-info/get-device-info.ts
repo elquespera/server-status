@@ -1,9 +1,9 @@
 "use server";
 
-import util from "node:util";
 import { exec as execSync } from "child_process";
-import { CpuInfo } from "node:os";
-import { freemem, totalmem, uptime } from "node:os";
+import { CpuInfo, freemem, platform, totalmem, uptime } from "node:os";
+import util from "node:util";
+import { arch } from "os";
 const exec = util.promisify(execSync);
 
 const sudo = process.env.CPU_SUDO === "true";
@@ -26,5 +26,7 @@ export async function getDeviceInfo() {
       totalMem: totalmem(),
       freeMem: freemem(),
       uptime: uptime(),
+      platform: platform(),
+      arch: arch(),
     };
 }
