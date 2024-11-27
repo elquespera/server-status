@@ -7,6 +7,7 @@ type TDeviceInfoContext = {
   uptime: number;
   platform: string;
   arch: string;
+  battery?: TermuxBattery;
 };
 
 const defaultDeviceInfoContext: TDeviceInfoContext = {

@@ -1,3 +1,4 @@
+import { BatteryInfo } from "@/components/battery-info";
 import { DeviceInfoProvider } from "@/components/contexts/device-info/device-info-provider";
 import { CPUInfo } from "@/components/cpu-info";
 import { MemInfo } from "@/components/mem-info";
@@ -13,6 +14,7 @@ export default function Home() {
           <OsInfo />
           <CPUInfo />
           <MemInfo />
+          <BatteryInfo />
         </div>
       </main>
     </DeviceInfoProvider>

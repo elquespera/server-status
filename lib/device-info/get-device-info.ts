@@ -7,18 +7,28 @@ import { arch } from "os";
 const exec = util.promisify(execSync);
 
 const sudo = process.env.CPU_SUDO === "true";
+const isTermux = process.env.IS_TERMUX === "true";
 
 export async function getDeviceInfo() {
-  const { stdout } = await exec(
-    `${sudo ? "sudo " : ""}node -e "console.log(JSON.stringify(os.cpus()))"`,
-  );
-
   let cpus: CpuInfo[] | undefined;
+  let battery: TermuxBattery | undefined;
+
   try {
-    cpus = JSON.parse(stdout) as CpuInfo[];
+    const { stdout: cpuRaw } = await exec(
+      `${sudo ? "sudo " : ""}node -e "console.log(JSON.stringify(os.cpus()))"`,
+    );
+    cpus = JSON.parse(cpuRaw);
   } catch (error) {
     console.error(error);
   }
+
+  if (isTermux)
+    try {
+      const { stdout: batteryRaw } = await exec("termux-battery-status");
+      battery = JSON.parse(batteryRaw);
+    } catch (error) {
+      console.error(error);
+    }
 
   if (cpus)
     return {
@@ -28,5 +38,15 @@ export async function getDeviceInfo() {
       uptime: uptime(),
       platform: platform(),
       arch: arch(),
+      battery,
     };
 }
+
+// const mockBattery: TermuxBattery = {
+//   health: "GOOD",
+//   percentage: 60,
+//   plugged: "PLUGGED_AC",
+//   status: "FULL",
+//   temperature: 28,
+//   current: 0,
+// };
