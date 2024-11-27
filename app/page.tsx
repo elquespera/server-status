@@ -7,7 +7,6 @@ export default function Home() {
   return (
     <DeviceInfoProvider
       updateFrequency={Number(process.env.UPDATE_FREQUENCY) ?? 1000}
-      cpuUpdateFrequency={Number(process.env.CPU_UPDATE_FREQUENCY) ?? 1000}
     >
       <main className="flex min-h-[100vh] flex-col items-center p-4 sm:p-8">
         <div className="w-full max-w-screen-sm">
