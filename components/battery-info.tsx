@@ -1,30 +1,14 @@
 "use client";
 import { LucideBatteryCharging } from "lucide-react";
 import { ComponentProps } from "react";
-import { Bar, BarChart, XAxis, YAxis } from "recharts";
 import { useDeviceInfo } from "./contexts/device-info/device-info-context";
+import { FilledBar } from "./filled-bar";
 import { Heading } from "./heading";
-import { ChartConfig, ChartContainer } from "./ui/chart";
 
-type BatteryInfoProps = {
-  barRadius?: number;
-} & ComponentProps<"div">;
-
-const chartConfig = {
-  battery: { color: "var(--chart-4)" },
-} satisfies ChartConfig;
-
-export function BatteryInfo({ barRadius = 3, ...props }: BatteryInfoProps) {
+export function BatteryInfo({ ...props }: ComponentProps<"div">) {
   const { battery } = useDeviceInfo();
 
   if (!battery) return null;
-
-  const chartData = [
-    {
-      charged: battery.percentage,
-      notCharged: 100 - battery.percentage,
-    },
-  ];
 
   return (
     <div {...props}>
@@ -37,38 +21,13 @@ export function BatteryInfo({ barRadius = 3, ...props }: BatteryInfoProps) {
           {battery.temperature.toFixed(1)}&deg;
         </span>
       </div>
-      <div className="relative w-full overflow-hidden pl-4">
-        <ChartContainer config={chartConfig} className="h-12 w-full">
-          <BarChart data={chartData} layout="vertical" barSize={30}>
-            <Bar
-              stackId={0}
-              dataKey="charged"
-              fill="hsl(var(--color-battery))"
-              radius={[barRadius, 0, 0, barRadius]}
-            />
-            <Bar
-              stackId={0}
-              dataKey="notCharged"
-              fill="hsl(var(--color-battery)/0.3)"
-              radius={[0, barRadius, barRadius, 0]}
-            />
-
-            <YAxis type="category" hide />
-            <XAxis type="number" hide domain={[0, 100]} />
-          </BarChart>
-        </ChartContainer>
-        <div
-          className="absolute inset-0 grid grid-cols-2 items-center py-1 pl-8 pr-4 font-mono text-xs mix-blend-difference invert md:text-sm"
-          style={{ color: `hsl(${chartConfig.battery.color})` }}
-        >
-          <span>{battery.percentage.toFixed(0)}%</span>
-          <span className="justify-self-end">
-            {battery.plugged === "PLUGGED_AC" ? (
-              <LucideBatteryCharging />
-            ) : null}
-          </span>
-        </div>
-      </div>
+      <FilledBar
+        color="var(--chart-4)"
+        filled={battery.percentage}
+        endDecoration={
+          battery.plugged === "PLUGGED_AC" ? <LucideBatteryCharging /> : null
+        }
+      />
     </div>
   );
 }

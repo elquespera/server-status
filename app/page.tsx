@@ -10,7 +10,7 @@ export default function Home() {
       updateFrequency={Number(process.env.UPDATE_FREQUENCY) ?? 1000}
     >
       <main className="flex flex-col items-center p-4 sm:p-8">
-        <div className="md: flex w-full max-w-screen-sm flex-col gap-4 gap-6">
+        <div className="flex w-full max-w-screen-sm flex-col gap-4 md:gap-6">
           <OsInfo />
           <CPUInfo />
           <MemInfo />
