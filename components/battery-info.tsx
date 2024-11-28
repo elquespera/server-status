@@ -1,5 +1,5 @@
 "use client";
-import { LucideBatteryCharging } from "lucide-react";
+import { LightningBoltIcon } from "@radix-ui/react-icons";
 import { ComponentProps } from "react";
 import { useDeviceInfo } from "./contexts/device-info/device-info-context";
 import { FilledBar } from "./filled-bar";
@@ -12,7 +12,7 @@ export function BatteryInfo({ ...props }: ComponentProps<"div">) {
 
   return (
     <div {...props}>
-      <div className="grid grid-cols-2 items-baseline gap-2">
+      <div className="mb-2 grid grid-cols-2 items-baseline gap-2">
         <div className="flex items-baseline gap-[1ch]">
           <Heading>Battery</Heading>
           <span className="text-xs italic md:text-sm">{battery.status}</span>
@@ -25,7 +25,9 @@ export function BatteryInfo({ ...props }: ComponentProps<"div">) {
         color="var(--chart-4)"
         filled={battery.percentage}
         endDecoration={
-          battery.plugged === "PLUGGED_AC" ? <LucideBatteryCharging /> : null
+          battery.plugged === "PLUGGED_AC" ? (
+            <LightningBoltIcon className="size-3" />
+          ) : null
         }
       />
     </div>

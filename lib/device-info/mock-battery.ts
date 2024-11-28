@@ -1,8 +1,8 @@
 export const mockBattery: TermuxBattery = {
   health: "GOOD",
-  percentage: 99,
+  percentage: 46.7,
   plugged: "PLUGGED_AC",
-  status: "FULL",
-  temperature: 28,
+  status: "CHARGING",
+  temperature: 25.8649548,
   current: 0,
 };

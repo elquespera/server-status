@@ -82,6 +82,7 @@ export function DeviceInfoProvider({
         uptime: Math.floor(uptime + elapsedTime),
         platform: deviceStats?.platform ?? "",
         arch: deviceStats?.arch ?? "",
+        osType: deviceStats?.osType ?? "",
         battery: deviceStats?.battery,
       }}
     >

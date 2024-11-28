@@ -2,13 +2,7 @@ import { createContext, useContext } from "react";
 
 type TDeviceInfoContext = {
   cpus: CPUData[];
-  totalMem: number;
-  freeMem: number;
-  uptime: number;
-  platform: string;
-  arch: string;
-  battery?: TermuxBattery;
-};
+} & OSInfo;
 
 const defaultDeviceInfoContext: TDeviceInfoContext = {
   cpus: [],
@@ -17,6 +11,7 @@ const defaultDeviceInfoContext: TDeviceInfoContext = {
   uptime: 0,
   platform: "",
   arch: "",
+  osType: "",
 };
 
 export const DeviceInfoContext = createContext(defaultDeviceInfoContext);
