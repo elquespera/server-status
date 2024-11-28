@@ -1,8 +1,9 @@
 "use client";
 import { useDeviceInfo } from "./contexts/device-info/device-info-context";
+import WifiIcon from "./icons/wifi-icon";
 
 export function OsInfo() {
-  const { uptime, platform, arch, osType } = useDeviceInfo();
+  const { uptime, platform, arch, osType, wifi } = useDeviceInfo();
 
   if (!uptime) return null;
 
@@ -14,7 +15,7 @@ export function OsInfo() {
   const days = Math.floor((uptime / 86400) % 3600);
 
   return (
-    <div className="grid grid-cols-2 items-baseline gap-2">
+    <div className="grid grid-cols-2 items-baseline gap-x-2">
       <span>
         <span className="font-semibold capitalize">{platform}</span>{" "}
         <i className="text-sm italic">{arch} </i>
@@ -34,6 +35,15 @@ export function OsInfo() {
         )}
         {hours}:{minutes}:{seconds}
       </pre>
+      {wifi && (
+        <div className="flex items-center gap-1 text-xs md:text-sm">
+          <WifiIcon />
+          <span className="font-mono text-muted-foreground">
+            {(wifi.frequency_mhz / 1000).toFixed(1)}GHz,{" "}
+            {wifi.link_speed_mbps.toFixed(0)} Mb/s
+          </span>
+        </div>
+      )}
     </div>
   );
 }

@@ -8,6 +8,7 @@ type OSInfo = {
   arch: string;
   osType: string;
   battery?: TermuxBattery;
+  wifi?: TermuxWifiInfo;
 };
 
 type TermuxBattery = {
@@ -17,4 +18,9 @@ type TermuxBattery = {
   status: "FULL" | "CHARGING" | "DISCHARGING";
   temperature: number;
   current: number;
+};
+
+type TermuxWifiInfo = {
+  frequency_mhz: number;
+  link_speed_mbps: number;
 };

@@ -13,6 +13,7 @@ import {
 import util from "node:util";
 import { arch } from "os";
 import { mockBattery } from "./mock-battery";
+import { mockWifiInfo } from "./mock-wifi-info";
 const exec = util.promisify(execSync);
 
 const sudo = process.env.CPU_SUDO === "true";
@@ -23,6 +24,7 @@ export async function getDeviceInfo(): Promise<
 > {
   let cpus: CpuInfo[] | undefined;
   let battery: TermuxBattery | undefined;
+  let wifi: TermuxWifiInfo | undefined;
 
   try {
     if (sudo) {
@@ -48,6 +50,17 @@ export async function getDeviceInfo(): Promise<
     battery = mockBattery;
   }
 
+  if (isTermux) {
+    try {
+      const { stdout: wifiRaw } = await exec("termux-wifi-connectioninfo");
+      wifi = JSON.parse(wifiRaw);
+    } catch (error) {
+      console.error(error);
+    }
+  } else {
+    wifi = mockWifiInfo;
+  }
+
   if (cpus)
     return {
       cpus,
@@ -58,5 +71,11 @@ export async function getDeviceInfo(): Promise<
       arch: arch(),
       osType: osType(),
       battery,
+      wifi: wifi
+        ? {
+            frequency_mhz: wifi.frequency_mhz,
+            link_speed_mbps: wifi.link_speed_mbps,
+          }
+        : undefined,
     };
 }

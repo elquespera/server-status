@@ -22,7 +22,7 @@ export function BatteryInfo({ ...props }: ComponentProps<"div">) {
         </span>
       </div>
       <FilledBar
-        color="var(--chart-4)"
+        color="var(--chart-3)"
         filled={battery.percentage}
         endDecoration={
           battery.plugged === "PLUGGED_AC" ? (

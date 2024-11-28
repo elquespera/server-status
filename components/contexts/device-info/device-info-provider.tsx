@@ -84,6 +84,7 @@ export function DeviceInfoProvider({
         arch: deviceStats?.arch ?? "",
         osType: deviceStats?.osType ?? "",
         battery: deviceStats?.battery,
+        wifi: deviceStats?.wifi,
       }}
     >
       {children}

@@ -25,7 +25,7 @@ export function CPUInfo({ ...props }: ComponentProps<"div">) {
           <FilledBar
             key={index}
             index={index + 1}
-            color="var(--chart-2)"
+            color="var(--chart-1)"
             filled={usage}
             endDecoration={`${(speed / 1000).toFixed(2)}GHz`}
           />
