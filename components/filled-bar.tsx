@@ -44,13 +44,13 @@ export function FilledBar({
         {...props}
       >
         <div
-          className="absolute inset-0 transition-transform"
+          className="absolute inset-0 transition-transform duration-500"
           style={{
             backgroundColor: `hsl(${color})`,
             transform: `translateX(-${100 - filledPercentage}%)`,
           }}
         />
-        <div className="absolute inset-0 flex items-center justify-between gap-2 px-2 mix-blend-difference invert md:px-3">
+        <div className="absolute inset-0 flex items-center justify-between gap-2 px-2 mix-blend-difference md:px-3">
           <span>
             {startDecoration ? startDecoration : filledPercentage.toFixed(1)}
           </span>
