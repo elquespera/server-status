@@ -13,12 +13,15 @@ export function BatteryInfo({ ...props }: ComponentProps<"div">) {
   return (
     <div {...props}>
       <div className="mb-2 grid grid-cols-2 items-baseline gap-2">
-        <div className="flex items-baseline gap-[1ch]">
+        <div className="flex items-baseline gap-1">
           <Heading>Battery</Heading>
-          <span className="text-xs italic md:text-sm">{battery.status}</span>
+          <i className="text-[0.75em] italic text-muted-foreground">
+            {battery.status}
+          </i>
         </div>
         <span className="text-end font-mono text-xs md:text-sm">
-          {battery.temperature.toFixed(1)}&deg;
+          {battery.temperature.toFixed(1)}
+          <i>&deg;C</i>
         </span>
       </div>
       <FilledBar

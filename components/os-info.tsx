@@ -39,8 +39,8 @@ export function OsInfo() {
         <div className="flex items-center gap-1 text-xs md:text-sm">
           <WifiIcon />
           <span className="font-mono text-muted-foreground">
-            {(wifi.frequency_mhz / 1000).toFixed(1)}GHz,{" "}
-            {wifi.link_speed_mbps.toFixed(0)} Mb/s
+            {(wifi.frequency_mhz / 1000).toFixed(0)}
+            <i>GHz</i>, {wifi.link_speed_mbps.toFixed(0)} <i>Mb/s</i>
           </span>
         </div>
       )}

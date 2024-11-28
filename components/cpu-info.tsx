@@ -27,7 +27,12 @@ export function CPUInfo({ ...props }: ComponentProps<"div">) {
             index={index + 1}
             color="var(--chart-1)"
             filled={usage}
-            endDecoration={`${(speed / 1000).toFixed(2)}GHz`}
+            endDecoration={
+              <>
+                {(speed / 1000).toFixed(2)}
+                <i>GHz</i>
+              </>
+            }
           />
         ))}
       </div>

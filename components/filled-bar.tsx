@@ -52,7 +52,14 @@ export function FilledBar({
         />
         <div className="absolute inset-0 flex items-center justify-between gap-2 px-2 mix-blend-difference md:px-3">
           <span>
-            {startDecoration ? startDecoration : filledPercentage.toFixed(1)}
+            {startDecoration ? (
+              startDecoration
+            ) : (
+              <>
+                {filledPercentage.toFixed(1)}
+                <span className="text-[0.875em]">%</span>
+              </>
+            )}
           </span>
           {endDecoration && <span>{endDecoration}</span>}
         </div>

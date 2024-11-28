@@ -1,5 +1,5 @@
 "use client";
-import { humanFileSize } from "@/lib/device-info/human-file-size";
+import { hMem } from "@/lib/device-info/human-mem";
 import { ComponentProps } from "react";
 import { useDeviceInfo } from "./contexts/device-info/device-info-context";
 import { FilledBar } from "./filled-bar";
@@ -14,16 +14,26 @@ export function MemInfo({ ...props }: ComponentProps<"div">) {
       <div className="mb-2 grid grid-cols-2 items-baseline gap-2">
         <Heading>Memory</Heading>
         <span className="text-end font-mono text-xs md:text-sm">
-          <span className="font-bold italic">Total:</span>{" "}
-          {humanFileSize(totalMem, false, 2)}
+          <span className="font-bold italic">Total:</span> {hMem(totalMem).size}
+          <i>{hMem(totalMem).unit}</i>
         </span>
       </div>
       <FilledBar
         color="var(--chart-2)"
         total={totalMem}
         filled={inUse}
-        startDecoration={humanFileSize(inUse, false, 2)}
-        endDecoration={humanFileSize(totalMem, false, 2)}
+        startDecoration={
+          <>
+            {hMem(inUse).size}
+            <i>{hMem(inUse).unit}</i>
+          </>
+        }
+        endDecoration={
+          <>
+            {hMem(freeMem).size}
+            <i>{hMem(freeMem).unit}</i>
+          </>
+        }
       />
     </div>
   );
