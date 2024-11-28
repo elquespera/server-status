@@ -3,6 +3,7 @@ import { DeviceInfoProvider } from "@/components/contexts/device-info/device-inf
 import { CPUInfo } from "@/components/cpu-info";
 import { MemInfo } from "@/components/mem-info";
 import { OsInfo } from "@/components/os-info";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
           <CPUInfo />
           <MemInfo />
           <BatteryInfo />
+          <ThemeToggle className="fixed bottom-8 self-center" />
         </div>
       </main>
     </DeviceInfoProvider>

@@ -1,9 +1,9 @@
 export function hMem(bytes: number) {
-  const thresh = 1000;
+  const thresh = 1024;
   const dp = 2;
 
   if (Math.abs(bytes) < thresh) {
-    return { size: bytes, unit: "B" };
+    return { size: bytes.toFixed(dp), unit: "B" };
   }
 
   const units = ["K", "M", "G", "T", "P", "E", "Z", "Y"];

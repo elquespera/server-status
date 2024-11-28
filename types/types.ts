@@ -24,3 +24,7 @@ type TermuxWifiInfo = {
   frequency_mhz: number;
   link_speed_mbps: number;
 };
+
+type PropsWithClassName = {
+  className?: string;
+};
