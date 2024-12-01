@@ -31,7 +31,7 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
 
     if (!info) return;
 
-    setUptime((current) => (current || deviceStats?.uptime) ?? 0);
+    setUptime((current) => (current || info.uptime) ?? 0);
 
     setDeviceStats((current) => {
       setCpus(
