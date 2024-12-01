@@ -29,6 +29,7 @@ export const parseBatteryInfo = (dump: string): TermuxBattery => {
 };
 
 const batteryStatuses: Record<string, string> = {
-  "5": "FULL",
+  "2": "CHARGING",
   "3": "DISCHARGING",
+  "5": "FULL",
 };
