@@ -4,21 +4,44 @@ const wsURL = process.env.NEXT_PUBLIC_WS_URL!;
 
 export function useWebsocket() {
   const [message, setMessage] = useState("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    console.log(wsURL);
-    const ws = new WebSocket(wsURL);
+    let ws: WebSocket | null = null;
 
-    ws.onopen = () => {
-      console.log("Opened!");
+    const connect = () => {
+      if (ws) return;
+
+      try {
+        console.log(`Reconnecting to server...`);
+        ws = new WebSocket(wsURL);
+
+        ws.onopen = () => {
+          console.log("Connection opened!");
+          setOpen(true);
+        };
+
+        ws.onclose = () => {
+          ws = null;
+          setOpen(false);
+        };
+
+        ws.onmessage = (event) => {
+          setMessage(event.data);
+        };
+      } catch {
+        console.log(`Couldn't connect server.`);
+      }
     };
 
-    ws.onmessage = (event) => {
-      setMessage(event.data);
-    };
+    const timer = setInterval(connect, 1000);
+    connect();
 
-    return () => ws.close();
+    return () => {
+      clearInterval(timer);
+      ws?.close();
+    };
   }, []);
 
-  return { message };
+  return { message, open };
 }

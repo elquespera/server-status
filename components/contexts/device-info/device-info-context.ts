@@ -1,9 +1,10 @@
 import { CPUData, OSInfo } from "@/server/src/types";
 import { createContext, useContext } from "react";
 
-type TDeviceInfoContext = { cpus: CPUData[] } & OSInfo;
+type TDeviceInfoContext = { live: boolean; cpus: CPUData[] } & OSInfo;
 
 const defaultDeviceInfoContext: TDeviceInfoContext = {
+  live: false,
   cpus: [],
   totalMem: 0,
   freeMem: 0,

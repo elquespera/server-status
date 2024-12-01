@@ -18,7 +18,7 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
   const [uptime, setUptime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
 
-  const { message } = useWebsocket();
+  const { message, open: live } = useWebsocket();
 
   useEffect(() => {
     if (!message) return;
@@ -61,6 +61,7 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
   return (
     <DeviceInfoContext.Provider
       value={{
+        live,
         cpus,
         totalMem: deviceStats?.totalMem ?? 0,
         freeMem: deviceStats?.freeMem ?? 0,

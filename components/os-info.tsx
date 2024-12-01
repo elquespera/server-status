@@ -1,9 +1,10 @@
 "use client";
+import { cn } from "@/lib/utils";
 import { useDeviceInfo } from "./contexts/device-info/device-info-context";
 import WifiIcon from "./icons/wifi-icon";
 
 export function OsInfo() {
-  const { uptime, platform, arch, osType, wifi } = useDeviceInfo();
+  const { live, uptime, platform, arch, osType, wifi } = useDeviceInfo();
 
   if (!uptime) return null;
 
@@ -24,7 +25,12 @@ export function OsInfo() {
         )}
       </span>
       <pre className="text-end font-mono text-xs md:text-sm">
-        <span className="relative inline-flex items-center gap-1.5 font-bold italic before:size-2 before:rounded-full before:bg-green-500">
+        <span
+          className={cn(
+            "relative inline-flex items-center gap-1.5 font-bold italic before:size-2 before:rounded-full before:bg-red-500",
+            live && "before:bg-green-500",
+          )}
+        >
           {" "}
           LIVE:{" "}
         </span>
