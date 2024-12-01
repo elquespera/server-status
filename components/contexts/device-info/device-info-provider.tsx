@@ -26,7 +26,9 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
     try {
       info = JSON.parse(message) as DeviceInfo;
     } catch (e) {
-      console.log(e);
+      console.log(message);
+      console.error(e);
+      console.error("Error parsing WS message!");
     }
 
     if (!info) return;

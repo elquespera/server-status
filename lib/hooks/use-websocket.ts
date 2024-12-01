@@ -6,6 +6,7 @@ export function useWebsocket() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    console.log(wsURL);
     const ws = new WebSocket(wsURL);
 
     ws.onopen = () => {
