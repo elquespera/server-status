@@ -23,8 +23,9 @@ export type TermuxBattery = {
 };
 
 export type TermuxWifiInfo = {
-  frequency_mhz: number;
-  link_speed_mbps: number;
+  ssid: string;
+  frequency: number;
+  speed: number;
 };
 
 export type PropsWithClassName = {

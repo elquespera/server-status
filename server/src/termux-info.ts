@@ -1,8 +1,8 @@
 import { exec as execSync } from "child_process";
 import util from "node:util";
 import { mockBattery, parseBatteryInfo } from "./battery-info";
-import { mockWifiInfo } from "./mock-wifi-info";
 import { TermuxBattery, TermuxWifiInfo } from "./types";
+import { mockWifiInfo, parseWifiInfo } from "./wifi-info";
 const exec = util.promisify(execSync);
 
 const isTermux = process.env.IS_TERMUX === "true";
@@ -13,10 +13,10 @@ export async function fetchTermuxInfo() {
 
   if (isTermux) {
     try {
-      // const { stdout: wifiRaw } = await exec("termux-wifi-connectioninfo");
+      const { stdout: wifiRaw } = await exec("dumpsys wifi");
       const { stdout: batteryRaw } = await exec("dumpsys battery");
 
-      // wifi = JSON.parse(wifiRaw);
+      wifi = parseWifiInfo(wifiRaw);
       battery = parseBatteryInfo(batteryRaw);
     } catch (error) {
       console.error(error);
@@ -26,13 +26,5 @@ export async function fetchTermuxInfo() {
     battery = mockBattery();
   }
 
-  return {
-    wifi: wifi
-      ? {
-          frequency_mhz: wifi.frequency_mhz,
-          link_speed_mbps: wifi.link_speed_mbps,
-        }
-      : undefined,
-    battery,
-  };
+  return { wifi, battery };
 }

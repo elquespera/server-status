@@ -1,8 +1,12 @@
-export function parseDump(dump: string) {
+export function parseDump(
+  dump: string,
+  lineSeparator: string | RegExp = /\n/,
+  keyValueSeparator = ":",
+) {
   const obj: Record<string, string> = {};
 
-  dump.split(/\n/).map((line) => {
-    const [key, value] = line.split(": ").map((s) => s.trim());
+  dump.split(lineSeparator).map((line) => {
+    const [key, value] = line.split(keyValueSeparator).map((s) => s.trim());
     obj[key] = value;
   });
 
