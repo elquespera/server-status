@@ -12,11 +12,6 @@ wss.on("connection", (ws: WebSocket) => {
   const id = addClient();
   console.log(`Client connected: ${id}`);
 
-  ws.on("message", (message: string) => {
-    console.log(`Received message: ${message}`);
-    ws.send(`Server received your message: ${message}`);
-  });
-
   ws.on("close", () => {
     console.log(`Client disconnected: ${id}`);
     removeClient(id);

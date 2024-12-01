@@ -21,13 +21,13 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
   const { message } = useWebsocket();
 
   useEffect(() => {
+    if (!message) return;
+
     let info: DeviceInfo | undefined;
 
     try {
       info = JSON.parse(message) as DeviceInfo;
-    } catch (e) {
-      console.log(message);
-      console.error(e);
+    } catch {
       console.error("Error parsing WS message!");
     }
 
