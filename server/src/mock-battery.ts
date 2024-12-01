@@ -1,3 +1,5 @@
+import { TermuxBattery } from "./types";
+
 export const mockBattery: TermuxBattery = {
   health: "GOOD",
   percentage: 46.7,

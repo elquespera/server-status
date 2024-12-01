@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --env-file=../.env dist/server.js",
+    "dev": "tsc --watch & node --watch --env-file=../.env dist/server.js",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "@types/ws": "^8.5.13",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

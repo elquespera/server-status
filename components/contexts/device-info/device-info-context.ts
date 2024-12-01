@@ -1,8 +1,7 @@
+import { CPUData, OSInfo } from "@/server/src/types";
 import { createContext, useContext } from "react";
 
-type TDeviceInfoContext = {
-  cpus: CPUData[];
-} & OSInfo;
+type TDeviceInfoContext = { cpus: CPUData[] } & OSInfo;
 
 const defaultDeviceInfoContext: TDeviceInfoContext = {
   cpus: [],

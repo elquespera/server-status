@@ -5,6 +5,7 @@ import { DesktopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
+import { PropsWithClassName } from "@/types/types";
 
 export function ThemeToggle({ className }: PropsWithClassName) {
   const [mounted, setMounted] = useState(false);

@@ -1,30 +1,30 @@
-"use server";
-
 import { exec as execSync } from "child_process";
 import {
   CpuInfo,
+  cpus as cpuInfo,
   freemem,
+  type as osType,
   platform,
   totalmem,
   uptime,
-  cpus as cpuInfo,
-  type as osType,
 } from "node:os";
 import util from "node:util";
 import { arch } from "os";
 import { mockBattery } from "./mock-battery";
 import { mockWifiInfo } from "./mock-wifi-info";
+import { DeviceInfo, OSInfo, TermuxBattery, TermuxWifiInfo } from "./types";
 const exec = util.promisify(execSync);
 
 const sudo = process.env.CPU_SUDO === "true";
 const isTermux = process.env.IS_TERMUX === "true";
 
-export async function getDeviceInfo(): Promise<
-  (OSInfo & { cpus: CpuInfo[] }) | undefined
-> {
-  let cpus: CpuInfo[] | undefined;
-  let battery: TermuxBattery | undefined;
-  let wifi: TermuxWifiInfo | undefined;
+export async function fetchDeviceInfo(
+  previousInfo: DeviceInfo | undefined,
+  elapsed: number,
+): Promise<DeviceInfo | undefined> {
+  let cpus: CpuInfo[] | undefined = previousInfo?.cpus;
+  let battery: TermuxBattery | undefined = previousInfo?.battery;
+  let wifi: TermuxWifiInfo | undefined = previousInfo?.wifi;
 
   try {
     if (sudo) {
@@ -41,24 +41,16 @@ export async function getDeviceInfo(): Promise<
 
   if (isTermux) {
     try {
+      const { stdout: wifiRaw } = await exec("termux-wifi-connectioninfo");
+      wifi = JSON.parse(wifiRaw);
       const { stdout: batteryRaw } = await exec("termux-battery-status");
       battery = JSON.parse(batteryRaw);
     } catch (error) {
       console.error(error);
     }
   } else {
-    battery = mockBattery;
-  }
-
-  if (isTermux) {
-    try {
-      const { stdout: wifiRaw } = await exec("termux-wifi-connectioninfo");
-      wifi = JSON.parse(wifiRaw);
-    } catch (error) {
-      console.error(error);
-    }
-  } else {
     wifi = mockWifiInfo;
+    battery = mockBattery;
   }
 
   if (cpus)

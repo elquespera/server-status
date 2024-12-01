@@ -1,68 +1,51 @@
 "use client";
 
 import { calcCpuUsage } from "@/lib/device-info/calc-cpu-usage";
+import { useWebsocket } from "@/lib/hooks/use-websocket";
+import { CPUData, DeviceInfo } from "@/server/src/types";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { DeviceInfoContext } from "./device-info-context";
-import { getDeviceInfo } from "@/lib/device-info/get-device-info";
 
 type DeviceInfoProviderProps = {
   updateFrequency?: number;
 } & PropsWithChildren;
 
-type DeviceStats = Awaited<ReturnType<typeof getDeviceInfo>>;
-
-export function DeviceInfoProvider({
-  updateFrequency = 2000,
-  children,
-}: DeviceInfoProviderProps) {
+export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
   const [cpus, setCpus] = useState<CPUData[]>([]);
-  const [deviceStats, setDeviceStats] = useState<DeviceStats>();
+
+  const [deviceStats, setDeviceStats] = useState<DeviceInfo | undefined>();
+
   const [uptime, setUptime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
 
+  const { message } = useWebsocket();
+
   useEffect(() => {
-    let timer: NodeJS.Timeout | undefined;
+    let info: DeviceInfo | undefined;
 
-    (async () => {
-      let previousInfo = await getDeviceInfo();
-      setDeviceStats(previousInfo);
+    try {
+      info = JSON.parse(message) as DeviceInfo;
+    } catch (e) {
+      console.log(e);
+    }
 
-      //Set initial uptime
-      setUptime((current) => previousInfo?.uptime ?? current);
+    if (!info) return;
 
-      //Set initial usage to 0%
+    setUptime((current) => (current || deviceStats?.uptime) ?? 0);
+
+    setDeviceStats((current) => {
       setCpus(
-        previousInfo?.cpus.map(({ model, speed }) => ({
-          model,
-          speed,
-          usage: 0,
-        })) ?? [],
+        current
+          ? current.cpus.map(({ times, model, speed }, index) => ({
+              model,
+              speed,
+              usage: calcCpuUsage(times, info.cpus[index].times),
+            }))
+          : info.cpus.map(({ model, speed }) => ({ model, speed, usage: 0 })),
       );
-
-      timer = setInterval(async () => {
-        const info = await getDeviceInfo();
-
-        if (!previousInfo || !info) {
-          previousInfo = info;
-          return;
-        }
-
-        setCpus(
-          previousInfo?.cpus.map(({ times, model, speed }, index) => ({
-            model,
-            speed,
-            usage: calcCpuUsage(times, info.cpus[index].times),
-          })),
-        );
-
-        setDeviceStats(info);
-
-        previousInfo = info;
-      }, updateFrequency);
-    })();
-
-    return () => clearInterval(timer);
-  }, [updateFrequency]);
+      return info;
+    });
+  }, [message]);
 
   useEffect(() => {
     const start = Date.now();
