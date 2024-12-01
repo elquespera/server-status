@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const wsURL = `ws://localhost:${process.env.NEXT_PUBLIC_WS_PORT ?? ""}`;
+const wsURL = process.env.NEXT_PUBLIC_WS_URL!;
 
 export function useWebsocket() {
   const [message, setMessage] = useState("");
