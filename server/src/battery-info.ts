@@ -21,35 +21,14 @@ export const parseBatteryInfo = (dump: string): TermuxBattery => {
       "Dock powered",
     ].some((key) => parsed[key] === "true"),
     temperature: (parseFloat(parsed["temperature"]) ?? 0) / 10,
-    status: parsed["status"] === "5" ? "FULL" : parsed["status"],
+    status: batteryStatuses[parsed["status"]] ?? parsed["status"],
   };
 
   console.log(info);
-
   return info;
 };
 
-export const batteryDump = `Current Battery Service state:
-  AC powered: true
-  USB powered: false
-  Wireless powered: false
-  Dock powered: false
-  Max charging current: 2000000
-  Max charging voltage: 5000000
-  Charge counter: 5124003
-  status: 5
-  health: 2
-  present: true
-  level: 100
-  scale: 100
-  voltage: 4471
-  temperature: 251
-  technology: Li-ion
-  AdaptiveCharging: config package:com.motorola.actions, mUpperLimit:-1, mLowerLimit:-1, mChargingDisabled:false, mLastLimitsUpdateTime:24885 (9236828 ms ago), mLastChargingStatusChangedTime:NOT SET, HAL service:motorola.hardware.health@2.0::IMotHealth@Proxy
-  vbus state: false
-  lpd state: false
-  cid state: 0
-  Full capacity: 5142000
-  Full design capacity: 5142000
-  charge watt: 0
-  last charge watt: 0`;
+const batteryStatuses: Record<string, string> = {
+  "5": "FULL",
+  "3": "DISCHARGING",
+};
