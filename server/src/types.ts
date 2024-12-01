@@ -16,12 +16,10 @@ export type OSInfo = {
 export type DeviceInfo = OSInfo & { cpus: CpuInfo[] };
 
 export type TermuxBattery = {
-  health: "GOOD" | "POOR";
-  percentage: number;
-  plugged: "UNPLUGGED" | "PLUGGED_AC";
-  status: "FULL" | "CHARGING" | "DISCHARGING";
+  level: number;
   temperature: number;
-  current: number;
+  powered: boolean;
+  status: string;
 };
 
 export type TermuxWifiInfo = {

@@ -1,6 +1,6 @@
 import { exec as execSync } from "child_process";
 import util from "node:util";
-import { mockBattery } from "./mock-battery";
+import { mockBattery, parseBatteryInfo } from "./battery-info";
 import { mockWifiInfo } from "./mock-wifi-info";
 import { TermuxBattery, TermuxWifiInfo } from "./types";
 const exec = util.promisify(execSync);
@@ -13,11 +13,11 @@ export async function fetchTermuxInfo() {
 
   if (isTermux) {
     try {
-      const { stdout: wifiRaw } = await exec("termux-wifi-connectioninfo");
-      const { stdout: batteryRaw } = await exec("termux-battery-status");
+      // const { stdout: wifiRaw } = await exec("termux-wifi-connectioninfo");
+      const { stdout: batteryRaw } = await exec("dumpsys battery");
 
-      wifi = JSON.parse(wifiRaw);
-      battery = JSON.parse(batteryRaw);
+      // wifi = JSON.parse(wifiRaw);
+      battery = parseBatteryInfo(batteryRaw);
     } catch (error) {
       console.error(error);
     }

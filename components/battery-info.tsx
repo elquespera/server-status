@@ -26,11 +26,9 @@ export function BatteryInfo({ ...props }: ComponentProps<"div">) {
       </div>
       <FilledBar
         color="var(--chart-3)"
-        filled={battery.percentage}
+        filled={battery.level}
         endDecoration={
-          battery.plugged === "PLUGGED_AC" ? (
-            <LightningBoltIcon className="size-3" />
-          ) : null
+          battery.powered ? <LightningBoltIcon className="size-3" /> : null
         }
       />
     </div>
