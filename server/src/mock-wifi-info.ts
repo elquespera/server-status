@@ -1,6 +1,6 @@
 import { TermuxWifiInfo } from "./types";
 
-export const mockWifiInfo: TermuxWifiInfo = {
+export const mockWifiInfo = (): TermuxWifiInfo => ({
   frequency_mhz: 5180,
-  link_speed_mbps: 224,
-};
+  link_speed_mbps: Math.random() * 300 + 200,
+});

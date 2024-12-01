@@ -1,10 +1,10 @@
 import { TermuxBattery } from "./types";
 
-export const mockBattery: TermuxBattery = {
+export const mockBattery = (): TermuxBattery => ({
   health: "GOOD",
-  percentage: 46.7,
+  percentage: Math.random() * 100,
   plugged: "PLUGGED_AC",
   status: "CHARGING",
-  temperature: 25.8649548,
+  temperature: 20 + Math.random() * 10,
   current: 0,
-};
+});

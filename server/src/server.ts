@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import WebSocket from "ws";
-import { refreshDeviceInfo } from "./device-info";
+import { refreshDeviceInfo } from "./refresh-device-info";
 
 const port = Number(process.env.WS_PORT);
 
