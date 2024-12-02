@@ -29,7 +29,7 @@ export function refreshDeviceInfo(wss: WebSocketServer) {
 
       if (ticks % termuxInterval === 0 && info) {
         const termuxInfo = await fetchTermuxInfo();
-        newInfo = { ...info, ...termuxInfo };
+        newInfo = { ...info, ...newInfo, ...termuxInfo };
       }
 
       if (newInfo) {
