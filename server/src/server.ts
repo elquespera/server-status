@@ -1,7 +1,12 @@
+import { cpus, freemem, uptime } from "node:os";
 import WebSocket from "ws";
-import { wsPort as port } from "./consts";
-import { liveInfoInterval, platformInfoInterval } from "./consts";
-import { getLiveInfo } from "./live-info";
+import {
+  cpuTempInterval,
+  liveInfoInterval,
+  platformInfoInterval,
+  wsPort as port,
+} from "./consts";
+import { getCpuTemp } from "./cpu-temp-info";
 import { getPlatformInfo } from "./platform-info";
 import { DeviceInfo } from "./types";
 
@@ -31,11 +36,20 @@ wss.on("connection", (ws: WebSocket) => {
       let newInfo: Partial<DeviceInfo> | undefined;
 
       if (ticks % liveInfoInterval === 0) {
-        const deviceInfo = await getLiveInfo();
-        newInfo = { ...info, ...deviceInfo };
+        newInfo = {
+          ...info,
+          cpus: cpus(),
+          freeMem: freemem(),
+          uptime: uptime(),
+        };
       }
 
-      if (ticks % platformInfoInterval === 0 && info) {
+      if (ticks % cpuTempInterval === 0) {
+        const cpuTemp = await getCpuTemp();
+        newInfo = { ...info, ...newInfo, cpuTemp };
+      }
+
+      if (ticks % platformInfoInterval === 0) {
         const termuxInfo = await getPlatformInfo();
         newInfo = { ...info, ...newInfo, ...termuxInfo };
       }
