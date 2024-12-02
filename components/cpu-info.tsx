@@ -7,16 +7,16 @@ import { Heading } from "./heading";
 export function CPUInfo({ ...props }: ComponentProps<"div">) {
   const { cpus, cpuTemp } = useDeviceInfo();
 
-  const cpuModel = cpus[0]?.model === "unknown" ? "" : cpus[0]?.model;
-  const cpuCount = cpus.length;
+  const cpuModel =
+    cpus[0]?.model === "unknown" ? "" : "2x Cortex-A78 + 6x Cortex-A55";
 
   return (
     <div {...props}>
       <div className="mb-2 grid grid-cols-[auto,1fr] items-baseline gap-2">
         <Heading>CPU</Heading>
-        {cpuCount && (
+        {cpuModel && (
           <p className="break truncate text-end font-mono text-xs md:text-sm">
-            {cpuCount}x {cpuModel}
+            {cpuModel}
           </p>
         )}
       </div>
