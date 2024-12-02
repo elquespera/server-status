@@ -1,4 +1,4 @@
-import { parseDump } from "./parseDump";
+import { parseDump } from "./parse-dump";
 import { TermuxWifiInfo } from "./types";
 
 export const mockWifiInfo = (): TermuxWifiInfo => ({

@@ -1,4 +1,4 @@
-import { parseDump } from "./parseDump";
+import { parseDump } from "./parse-dump";
 import { TermuxBattery } from "./types";
 
 export const mockBattery = (): TermuxBattery => ({

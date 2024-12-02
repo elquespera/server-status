@@ -11,6 +11,7 @@ export type OSInfo = {
   osType: string;
   battery?: TermuxBattery;
   wifi?: TermuxWifiInfo;
+  cpuTemp?: number[];
 };
 
 export type DeviceInfo = OSInfo & { cpus: CpuInfo[] };

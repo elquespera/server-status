@@ -5,7 +5,7 @@ import { FilledBar } from "./filled-bar";
 import { Heading } from "./heading";
 
 export function CPUInfo({ ...props }: ComponentProps<"div">) {
-  const { cpus } = useDeviceInfo();
+  const { cpus, cpuTemp } = useDeviceInfo();
 
   const cpuModel = cpus[0]?.model === "unknown" ? "" : cpus[0]?.model;
   const cpuCount = cpus.length;
@@ -28,10 +28,16 @@ export function CPUInfo({ ...props }: ComponentProps<"div">) {
             color="var(--chart-1)"
             filled={usage}
             endDecoration={
-              <>
+              <span>
+                {cpuTemp?.[index] && (
+                  <span className="pr-6">
+                    {cpuTemp[index].toFixed(1)}
+                    <i>&deg;</i>
+                  </span>
+                )}
                 {(speed / 1000).toFixed(2)}
                 <i>GHz</i>
-              </>
+              </span>
             }
           />
         ))}

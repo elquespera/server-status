@@ -27,6 +27,7 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
 
     try {
       info = JSON.parse(message) as DeviceInfo;
+      console.log(message);
     } catch {
       console.error("Error parsing WS message!");
     }
@@ -71,6 +72,7 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
         osType: deviceStats?.osType ?? "",
         battery: deviceStats?.battery,
         wifi: deviceStats?.wifi,
+        cpuTemp: deviceStats?.cpuTemp,
       }}
     >
       {children}
