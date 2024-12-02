@@ -19,7 +19,7 @@ export async function fetchTermuxInfo() {
       const [
         { stdout: wifiRaw },
         { stdout: batteryRaw },
-        { stdout: cpuTempDump },
+        { stdout: cpuTempRaw },
       ] = await Promise.all([
         exec("dumpsys wifi"),
         exec("dumpsys battery"),
@@ -30,7 +30,7 @@ export async function fetchTermuxInfo() {
 
       wifi = parseWifiInfo(wifiRaw);
       battery = parseBatteryInfo(batteryRaw);
-      cpuTemp = parseCpuTemp(cpuTempDump);
+      cpuTemp = parseCpuTemp(cpuTempRaw);
       console.log(cpuTemp);
     } catch (error) {
       console.error(error);

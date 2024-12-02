@@ -4,7 +4,7 @@ export const mockCpuTemp = () =>
     .map(() => Math.random() * 15 + 20);
 
 export const parseCpuTemp = (dump: string) => {
-  const rawTemps = dump.split("/n").map(Number);
+  const rawTemps = dump.split(/\n/).map(Number);
 
   return [
     ...rawTemps.slice(0, 6),
