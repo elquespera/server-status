@@ -44,7 +44,7 @@ export function FilledBar({
         {...props}
       >
         <div
-          className="absolute inset-0 transition-transform duration-500"
+          className="absolute inset-0 transition-transform duration-1000"
           style={{
             backgroundColor: `hsl(${color})`,
             transform: `translateX(-${100 - filledPercentage}%)`,
