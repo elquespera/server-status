@@ -9,6 +9,7 @@ const exec = util.promisify(execSync);
 const isTermux = process.env.IS_TERMUX === "true";
 
 export async function fetchTermuxInfo() {
+  const thermalPath = "/sys/class/thermal/thermal_zone";
   let battery: TermuxBattery | undefined;
   let wifi: TermuxWifiInfo | undefined;
   let cpuTemp: number[] | undefined;
@@ -23,7 +24,7 @@ export async function fetchTermuxInfo() {
         exec("dumpsys wifi"),
         exec("dumpsys battery"),
         exec(
-          "cat /sys/class/thermal/thermal_zone{28..33}/temp /sys/class/thermal/thermal_zone{36..39}/temp",
+          `sudo cat ${thermalPath}{28..33}/temp ${thermalPath}{36..39}/temp`,
         ),
       ]);
 
