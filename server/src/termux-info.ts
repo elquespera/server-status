@@ -19,21 +19,19 @@ export async function fetchTermuxInfo() {
       const [
         { stdout: wifiRaw },
         { stdout: batteryRaw },
-        // { stdout: cpuTempDump },
-        { stdout: pwd },
+        { stdout: cpuTempDump },
       ] = await Promise.all([
         exec("dumpsys wifi"),
         exec("dumpsys battery"),
-        // exec(
-        //   `cat ${thermalPath}{28..33}/temp ${thermalPath}{36..39}/temp`,
-        // ),
-        exec("pwd"),
+        exec(`cat ${thermalPath}{28..33}/temp ${thermalPath}{36..39}/temp`, {
+          shell: "/data/data/com.termux/files/usr/bin/bash",
+        }),
       ]);
 
       wifi = parseWifiInfo(wifiRaw);
       battery = parseBatteryInfo(batteryRaw);
-      // cpuTemp = parseCpuTemp(cpuTempDump);
-      console.log(pwd);
+      cpuTemp = parseCpuTemp(cpuTempDump);
+      console.log(cpuTemp);
     } catch (error) {
       console.error(error);
     }
