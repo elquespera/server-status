@@ -31,7 +31,6 @@ export async function fetchTermuxInfo() {
       wifi = parseWifiInfo(wifiRaw);
       battery = parseBatteryInfo(batteryRaw);
       cpuTemp = parseCpuTemp(cpuTempRaw);
-      console.log(cpuTemp);
     } catch (error) {
       console.error(error);
     }
