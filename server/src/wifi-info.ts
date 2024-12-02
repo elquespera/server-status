@@ -2,7 +2,7 @@ import { parseDump } from "./parse-dump";
 import { TermuxWifiInfo } from "./types";
 
 export const mockWifiInfo = (): TermuxWifiInfo => ({
-  ssid: "",
+  ssid: "Network SSID",
   frequency: 5180,
   speed: Math.random() * 300 + 200,
 });

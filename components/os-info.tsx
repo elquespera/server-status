@@ -42,12 +42,17 @@ export function OsInfo() {
         {hours}:{minutes}:{seconds}
       </pre>
       {wifi && (
-        <div className="flex items-center gap-1 text-xs md:text-sm">
-          <WifiIcon />
-          <span className="font-mono text-muted-foreground">
-            {wifi.ssid}, {(wifi.frequency / 1000).toFixed(0)}
-            <i>GHz</i>, {wifi.speed.toFixed(0)} <i>Mb/s</i>
-          </span>
+        <div className="flex items-center gap-2 text-xs md:text-sm">
+          <div className="flex flex-col font-mono text-muted-foreground">
+            <span className="inline-flex items-center gap-1">
+              <WifiIcon />
+              {wifi.ssid}
+            </span>
+            <span>
+              {(wifi.frequency / 1000).toFixed(0)}
+              <i>GHz</i>, {wifi.speed.toFixed(0)} <i>Mb/s</i>
+            </span>
+          </div>
         </div>
       )}
     </div>
