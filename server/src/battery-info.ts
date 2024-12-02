@@ -10,9 +10,8 @@ export const mockBattery = (): TermuxBattery => ({
 
 export const parseBatteryInfo = (dump: string): TermuxBattery => {
   const parsed = parseDump(dump);
-  console.log(parsed);
 
-  const info = {
+  return {
     level: parseFloat(parsed["level"]),
     powered: [
       "AC powered",
@@ -23,9 +22,6 @@ export const parseBatteryInfo = (dump: string): TermuxBattery => {
     temperature: (parseFloat(parsed["temperature"]) ?? 0) / 10,
     status: batteryStatuses[parsed["status"]] ?? parsed["status"],
   };
-
-  console.log(info);
-  return info;
 };
 
 const batteryStatuses: Record<string, string> = {
