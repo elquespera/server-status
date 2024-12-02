@@ -13,8 +13,10 @@ export async function fetchTermuxInfo() {
 
   if (isTermux) {
     try {
-      const { stdout: wifiRaw } = await exec("dumpsys wifi");
-      const { stdout: batteryRaw } = await exec("dumpsys battery");
+      const [{ stdout: wifiRaw }, { stdout: batteryRaw }] = await Promise.all([
+        exec("dumpsys wifi"),
+        exec("dumpsys battery"),
+      ]);
 
       wifi = parseWifiInfo(wifiRaw);
       battery = parseBatteryInfo(batteryRaw);
