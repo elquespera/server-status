@@ -1,32 +1,52 @@
-import { randomUUID } from "crypto";
 import WebSocket from "ws";
-import { refreshDeviceInfo } from "./refresh-device-info";
-
-const port = Number(process.env.WS_PORT);
+import { wsPort as port } from "./consts";
+import { liveInfoInterval, platformInfoInterval } from "./consts";
+import { getLiveInfo } from "./live-info";
+import { getPlatformInfo } from "./platform-info";
+import { DeviceInfo } from "./types";
 
 const wss = new WebSocket.Server({ port });
 
-const clients: string[] = [];
-
 wss.on("connection", (ws: WebSocket) => {
-  const id = addClient();
-  console.log(`Client connected: ${id}`);
+  console.log(`Client connected. Connections: ${wss.clients.size}`);
 
   ws.on("close", () => {
-    console.log(`Client disconnected: ${id}`);
-    removeClient(id);
+    console.log(`Client disconnected. Connections: ${wss.clients.size}`);
   });
 });
 
-refreshDeviceInfo(wss);
+(() => {
+  let timeStamp = Date.now();
+  let info: DeviceInfo | undefined;
 
-const addClient = () => {
-  const id = randomUUID();
-  clients.push(id);
-  return id;
-};
+  const broadcast = () =>
+    wss.clients.forEach((client) => {
+      client.send(JSON.stringify(info));
+    });
 
-const removeClient = (id: string) => {
-  const index = clients.indexOf(id);
-  if (index >= 0) clients.splice(index, 1);
-};
+  const loop = async () => {
+    if (wss.clients.size) {
+      const ticks = Math.floor((Date.now() - timeStamp) / 1000);
+
+      let newInfo: Partial<DeviceInfo> | undefined;
+
+      if (ticks % liveInfoInterval === 0) {
+        const deviceInfo = await getLiveInfo();
+        newInfo = { ...info, ...deviceInfo };
+      }
+
+      if (ticks % platformInfoInterval === 0 && info) {
+        const termuxInfo = await getPlatformInfo();
+        newInfo = { ...info, ...newInfo, ...termuxInfo };
+      }
+
+      if (newInfo) {
+        info = newInfo as DeviceInfo;
+        broadcast();
+      }
+    }
+  };
+
+  setInterval(loop, 1000);
+  loop();
+})();
