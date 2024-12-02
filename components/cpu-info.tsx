@@ -25,7 +25,7 @@ export function CPUInfo({ ...props }: ComponentProps<"div">) {
           <FilledBar
             key={index}
             index={index + 1}
-            color="var(--chart-1)"
+            color="var(--cpu)"
             filled={usage}
             endDecoration={
               <span>

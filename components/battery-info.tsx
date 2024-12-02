@@ -25,7 +25,7 @@ export function BatteryInfo({ ...props }: ComponentProps<"div">) {
         </span>
       </div>
       <FilledBar
-        color="var(--chart-3)"
+        color="var(--battery)"
         filled={battery.level}
         endDecoration={
           battery.powered ? <LightningBoltIcon className="size-3" /> : null

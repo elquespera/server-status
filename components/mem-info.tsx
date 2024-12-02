@@ -19,7 +19,7 @@ export function MemInfo({ ...props }: ComponentProps<"div">) {
         </span>
       </div>
       <FilledBar
-        color="var(--chart-2)"
+        color="var(--memory)"
         total={totalMem}
         filled={inUse}
         startDecoration={

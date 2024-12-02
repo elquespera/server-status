@@ -12,7 +12,7 @@ type FilledBarProps = {
 
 export function FilledBar({
   className,
-  color = "var(--chart-1)",
+  color = "var(--cpu)",
   filled = 50,
   total = 100,
   index,

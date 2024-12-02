@@ -22,16 +22,13 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
 
   useEffect(() => {
     if (!message) return;
-
     let info: DeviceInfo | undefined;
 
     try {
       info = JSON.parse(message) as DeviceInfo;
-      console.log(message);
     } catch {
       console.error("Error parsing WS message!");
     }
-
     if (!info) return;
 
     setUptime((current) => (current || info.uptime) ?? 0);
