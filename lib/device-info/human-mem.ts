@@ -1,5 +1,5 @@
-export function hMem(bytes: number) {
-  const thresh = 1024;
+export function hMem(bytes: number, si = true) {
+  const thresh = si ? 1024 : 1000;
   const dp = 2;
 
   if (Math.abs(bytes) < thresh) {

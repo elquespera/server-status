@@ -56,12 +56,12 @@ body {
   :root {
     --cpu: 195 83% 45%;
     --memory: 42 100% 70%;
+    --storage: 346 84% 70%;
     --battery: 164 95% 43%;
   }
 
   .dark {
     --cpu: 195 83% 70%;
-    --memory: 42 100% 70%;
     --battery: 164 95% 50%;
   }
 }

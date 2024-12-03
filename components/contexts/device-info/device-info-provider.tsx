@@ -69,6 +69,7 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
         osType: deviceStats?.osType ?? "",
         battery: deviceStats?.battery,
         wifi: deviceStats?.wifi,
+        storage: deviceStats?.storage,
         cpuTemp: deviceStats?.cpuTemp,
       }}
     >
