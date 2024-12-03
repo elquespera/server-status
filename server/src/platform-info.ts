@@ -18,7 +18,7 @@ export async function getPlatformInfo() {
       ] = await Promise.all([
         runBashCommand("dumpsys wifi"),
         runBashCommand("dumpsys battery"),
-        runBashCommand("dympsys diskstats"),
+        runBashCommand("dumpsys diskstats"),
       ]);
 
       wifi = parseWifiInfo(wifiRaw);
