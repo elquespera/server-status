@@ -1,16 +1,12 @@
 "use client";
 
 import { calcCpuUsage } from "@/lib/device-info/calc-cpu-usage";
-import { useWebsocket } from "@/lib/hooks/use-websocket";
 import { CPUData, DeviceInfo } from "@/server/src/types";
 import { PropsWithChildren, useEffect, useState } from "react";
+import { useWS } from "../ws/ws-context";
 import { DeviceInfoContext } from "./device-info-context";
 
-type DeviceInfoProviderProps = {
-  updateFrequency?: number;
-} & PropsWithChildren;
-
-export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
+export function DeviceInfoProvider({ children }: PropsWithChildren) {
   const [cpus, setCpus] = useState<CPUData[]>([]);
 
   const [deviceStats, setDeviceStats] = useState<DeviceInfo | undefined>();
@@ -18,11 +14,10 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
   const [uptime, setUptime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
 
-  const { message, open: live } = useWebsocket();
+  const { message, state } = useWS();
 
   useEffect(() => {
     if (!message) return;
-    // if (message) return;
 
     let info: DeviceInfo | undefined;
 
@@ -63,7 +58,7 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
   return (
     <DeviceInfoContext.Provider
       value={{
-        live,
+        live: state === "OPEN",
         cpus,
         totalMem: deviceStats?.totalMem ?? 0,
         freeMem: deviceStats?.freeMem ?? 0,

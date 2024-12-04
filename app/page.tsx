@@ -8,9 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
-    <DeviceInfoProvider
-      updateFrequency={Number(process.env.UPDATE_FREQUENCY) ?? 1000}
-    >
+    <DeviceInfoProvider>
       <main className="flex flex-col items-center p-4 sm:p-8">
         <div className="mb-16 flex w-full max-w-screen-sm flex-col gap-8">
           <OsInfo />
