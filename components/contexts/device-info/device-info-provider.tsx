@@ -7,29 +7,22 @@ import { useWS } from "../ws/ws-context";
 import { DeviceInfoContext } from "./device-info-context";
 
 export function DeviceInfoProvider({ children }: PropsWithChildren) {
-  const [cpus, setCpus] = useState<CPUData[]>([]);
-
   const [deviceStats, setDeviceStats] = useState<DeviceInfo | undefined>();
-
+  const [cpus, setCpus] = useState<CPUData[]>([]);
   const [uptime, setUptime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
-
-  const { message, state } = useWS();
+  const { message, state, sendMessage } = useWS();
 
   useEffect(() => {
-    if (!message) return;
+    if (state === "OPEN")
+      sendMessage({ type: "auth-token", token: "Test hello!" });
+  }, [state, sendMessage]);
 
-    let info: DeviceInfo | undefined;
-
-    try {
-      info = JSON.parse(message) as DeviceInfo;
-    } catch {
-      console.error("Error parsing WS message!");
-    }
-    if (!info) return;
+  useEffect(() => {
+    if (message?.type !== "device-info") return;
+    const { info } = message;
 
     setUptime((current) => (current || info.uptime) ?? 0);
-
     setDeviceStats((current) => {
       setCpus(
         current

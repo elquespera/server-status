@@ -1,8 +1,8 @@
 import { arch, type as osType, platform, totalmem } from "node:os";
 import { runBashCommand } from "./bash-command";
-import { batteryStatuses, isTermux } from "./consts";
+import { batteryStatuses, isTermux } from "../consts";
 import { parseDump } from "./parse-dump";
-import { TermuxBattery, TermuxStorage, TermuxWifiInfo } from "./types";
+import { TermuxBattery, TermuxStorage, TermuxWifiInfo } from "../types";
 
 export async function getPlatformInfo() {
   let battery: TermuxBattery | undefined;

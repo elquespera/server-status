@@ -1,5 +1,5 @@
 import { runBashCommand } from "./bash-command";
-import { isTermux } from "./consts";
+import { isTermux } from "../consts";
 
 export async function getCpuTemp() {
   if (isTermux) {

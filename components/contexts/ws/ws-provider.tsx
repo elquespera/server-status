@@ -1,7 +1,8 @@
 "use client";
 
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { WSContext, WSState } from "./ws-context";
+import { WSMessage } from "@/server/src/types";
 
 type WSProviderProps = {
   pollInterval?: number;
@@ -14,28 +15,36 @@ export function WSProvider({
   children,
 }: WSProviderProps) {
   const [state, setState] = useState<WSState>("CLOSED");
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<WSMessage | null>(null);
+  const wsRef = useRef<WebSocket | null>(null);
+
+  const sendMessage = (message: WSMessage) => {
+    wsRef.current?.send(JSON.stringify(message));
+  };
 
   useEffect(() => {
-    let ws: WebSocket | null = null;
-
     const connect = () => {
-      if (ws) return;
+      if (wsRef.current) return;
 
       try {
-        ws = new WebSocket(wsURL);
+        wsRef.current = new WebSocket(wsURL);
 
-        ws.onopen = () => {
+        wsRef.current.onopen = () => {
           setState("OPEN");
         };
 
-        ws.onclose = () => {
-          ws = null;
+        wsRef.current.onclose = () => {
+          wsRef.current = null;
           setState("CLOSED");
         };
 
-        ws.onmessage = (event) => {
-          setMessage(event.data);
+        wsRef.current.onmessage = (event) => {
+          try {
+            const parsedMessage = JSON.parse(event.data) as WSMessage;
+            setMessage(parsedMessage);
+          } catch {
+            console.error("Error parsing Websocket message.");
+          }
         };
       } catch {
         console.log(`Couldn't connect server.`);
@@ -47,12 +56,12 @@ export function WSProvider({
 
     return () => {
       clearInterval(timer);
-      ws?.close();
+      wsRef.current?.close();
     };
   }, [wsURL, pollInterval]);
 
   return (
-    <WSContext.Provider value={{ state, message }}>
+    <WSContext.Provider value={{ state, message, sendMessage }}>
       {children}
     </WSContext.Provider>
   );

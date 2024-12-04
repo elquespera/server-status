@@ -39,3 +39,10 @@ export type TermuxStorage = {
 export type PropsWithClassName = {
   className?: string;
 };
+
+export type WSMessage =
+  | {
+      type: "device-info";
+      info: DeviceInfo;
+    }
+  | { type: "auth-token"; token: string };
