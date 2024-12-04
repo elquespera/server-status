@@ -1,10 +1,10 @@
 import { BatteryInfo } from "@/components/battery-info";
+import { BottomMenu } from "@/components/bottom-menu";
 import { DeviceInfoProvider } from "@/components/contexts/device-info/device-info-provider";
 import { CPUInfo } from "@/components/cpu-info";
 import { MemInfo } from "@/components/mem-info";
 import { OsInfo } from "@/components/os-info";
 import { StorageInfo } from "@/components/storage-info copy";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
@@ -16,8 +16,8 @@ export default function Home() {
           <MemInfo />
           <StorageInfo />
           <BatteryInfo />
-          <ThemeToggle className="fixed bottom-8 self-center" />
         </div>
+        <BottomMenu className="fixed bottom-8 self-center" />
       </main>
     </DeviceInfoProvider>
   );

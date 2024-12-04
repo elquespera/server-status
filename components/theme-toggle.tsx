@@ -20,10 +20,7 @@ export function ThemeToggle({ className }: PropsWithClassName) {
   return (
     <ToggleGroup
       type="single"
-      className={cn(
-        "gap-0 overflow-hidden rounded-md border bg-background shadow-sm",
-        className,
-      )}
+      className={cn("gap-0", className)}
       value={theme}
       onValueChange={setTheme}
     >
