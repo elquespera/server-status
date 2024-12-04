@@ -1,8 +1,9 @@
+import { AuthProvider } from "@/components/contexts/auth/auth-provider";
+import { WSProvider } from "@/components/contexts/ws/ws-provider";
+import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { WSProvider } from "@/components/contexts/ws/ws-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,7 +37,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <WSProvider>{children}</WSProvider>
+          <WSProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </WSProvider>
         </ThemeProvider>
       </body>
     </html>
