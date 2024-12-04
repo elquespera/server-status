@@ -52,7 +52,7 @@ export function FilledBar({
         />
         <div className="absolute inset-0 flex items-center justify-between gap-2 px-2 mix-blend-difference md:px-3">
           <span>
-            {startDecoration ? (
+            {startDecoration !== undefined ? (
               startDecoration
             ) : (
               <>
@@ -61,7 +61,7 @@ export function FilledBar({
               </>
             )}
           </span>
-          {endDecoration && <span>{endDecoration}</span>}
+          {endDecoration !== undefined && <span>{endDecoration}</span>}
         </div>
       </div>
     </div>

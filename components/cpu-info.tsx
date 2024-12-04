@@ -3,20 +3,27 @@ import { ComponentProps } from "react";
 import { useDeviceInfo } from "./contexts/device-info/device-info-context";
 import { FilledBar } from "./filled-bar";
 import { Heading } from "./heading";
+import { cpuCores, cpuModel } from "@/consts/consts";
+import { cn } from "@/lib/utils";
 
 export function CPUInfo({ ...props }: ComponentProps<"div">) {
-  const { cpus, cpuTemp } = useDeviceInfo();
+  const { cpus: loadedCpus, cpuTemp } = useDeviceInfo();
 
-  const cpuModel =
-    cpus[0]?.model === "unknown" ? "" : "2x Cortex-A78 + 6x Cortex-A55";
+  const model = cpuModel || loadedCpus?.[0]?.model || "";
+
+  const cpus = loadedCpus?.length
+    ? loadedCpus
+    : Array.from({ length: cpuCores })
+        .fill("")
+        .map(() => ({ usage: 0, speed: 0 }));
 
   return (
     <div {...props}>
       <div className="mb-2 grid grid-cols-[auto,1fr] items-baseline gap-2">
         <Heading>CPU</Heading>
-        {cpuModel && (
+        {model && (
           <p className="break truncate text-end font-mono text-xs md:text-sm">
-            {cpuModel}
+            {model}
           </p>
         )}
       </div>
@@ -26,6 +33,7 @@ export function CPUInfo({ ...props }: ComponentProps<"div">) {
             key={index}
             index={index + 1}
             color="var(--cpu)"
+            className={cn(!loadedCpus?.length && "animate-pulse")}
             filled={usage}
             endDecoration={
               <span>

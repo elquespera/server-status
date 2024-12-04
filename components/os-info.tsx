@@ -60,7 +60,7 @@ export function OsInfo() {
             </span>
           </>
         ) : (
-          <Skeleton className="mb-2 h-[1em] w-24" />
+          <Skeleton className="mb-1 h-[1em] w-24" />
         )}
       </div>
     </div>
