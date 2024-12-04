@@ -22,6 +22,8 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
 
   useEffect(() => {
     if (!message) return;
+    // if (message) return;
+
     let info: DeviceInfo | undefined;
 
     try {
@@ -48,6 +50,8 @@ export function DeviceInfoProvider({ children }: DeviceInfoProviderProps) {
   }, [message]);
 
   useEffect(() => {
+    if (!uptime) return;
+
     const start = Date.now();
     const timer = setInterval(() => {
       setElapsedTime((Date.now() - start) / 1000);

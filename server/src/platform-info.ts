@@ -103,7 +103,6 @@ const parseStorage = (dump: string): TermuxStorage => {
 
   const dataValue = parsed["Data-Free"];
   const [free, total] = dataValue?.split(" / ").map((x) => parseInt(x.trim()));
-  console.log(free, total);
 
   return {
     free: 1000 * (free ?? 0),

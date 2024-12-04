@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const wsURL = process.env.NEXT_PUBLIC_WS_URL!;
 
-export function useWebsocket() {
+export function useWebsocket(pollInterval = 2000) {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -13,11 +13,9 @@ export function useWebsocket() {
       if (ws) return;
 
       try {
-        console.log(`Reconnecting to server...`);
         ws = new WebSocket(wsURL);
 
         ws.onopen = () => {
-          console.log("Connection opened!");
           setOpen(true);
         };
 
@@ -34,14 +32,14 @@ export function useWebsocket() {
       }
     };
 
-    const timer = setInterval(connect, 1000);
+    const timer = setInterval(connect, pollInterval);
     connect();
 
     return () => {
       clearInterval(timer);
       ws?.close();
     };
-  }, []);
+  }, [pollInterval]);
 
   return { message, open };
 }
