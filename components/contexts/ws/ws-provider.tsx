@@ -1,6 +1,12 @@
 "use client";
 
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
+import {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { WSContext, WSState } from "./ws-context";
 import { WSMessage } from "@/server/src/types";
 
@@ -18,9 +24,9 @@ export function WSProvider({
   const [message, setMessage] = useState<WSMessage | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
 
-  const sendMessage = (message: WSMessage) => {
+  const sendMessage = useCallback((message: WSMessage) => {
     wsRef.current?.send(JSON.stringify(message));
-  };
+  }, []);
 
   useEffect(() => {
     const connect = () => {
