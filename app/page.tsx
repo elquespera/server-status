@@ -6,7 +6,7 @@ import { MemInfo } from "@/components/mem-info";
 import { OsInfo } from "@/components/os-info";
 import { StorageInfo } from "@/components/storage-info copy";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <DeviceInfoProvider>
       <main className="flex flex-col items-center p-4 sm:p-8">

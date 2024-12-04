@@ -10,7 +10,7 @@ export function DashboardButton() {
 
   return (
     <Button variant="ghost" size="icon" className="rounded-none" asChild>
-      <Link href={routes.dashboard}>
+      <Link href={isAuth ? routes.dashboard : routes.login}>
         {isAuth ? <DashboardIcon /> : <EnterIcon />}
       </Link>
     </Button>
