@@ -4,17 +4,19 @@ import {
   liveInfoInterval,
   platformInfoInterval,
 } from "./consts";
+import { broadcast } from "./messages";
 import { DeviceInfo } from "./types";
+import { getUsersByRoom } from "./users";
 import { getCpuTemp } from "./utils/cpu-temp-info";
+import { logger } from "./utils/logger";
 import { getPlatformInfo } from "./utils/platform-info";
-import { broadcast, wss } from "./server";
 
 export function updateDeviceInfo() {
   let timeStamp = Date.now();
   let info: DeviceInfo | undefined;
 
   const loop = async () => {
-    if (wss.clients.size) {
+    if (getUsersByRoom("device-info").length) {
       const ticks = Math.floor((Date.now() - timeStamp) / 1000);
 
       let newInfo: Partial<DeviceInfo> | undefined;
@@ -40,7 +42,8 @@ export function updateDeviceInfo() {
 
       if (newInfo) {
         info = newInfo as DeviceInfo;
-        broadcast({ type: "device-info", info });
+        logger("Update device info");
+        broadcast({ type: "device-info", info }, "device-info");
       }
     }
   };

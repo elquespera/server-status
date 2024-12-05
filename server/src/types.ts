@@ -1,4 +1,5 @@
 import type { CpuInfo } from "node:os";
+import WebSocket from "ws";
 
 export type CPUData = { model: string; speed: number; usage: number };
 
@@ -40,11 +41,20 @@ export type PropsWithClassName = {
   className?: string;
 };
 
+export type WSRoom = "device-info" | "dashboard";
+
 export type WSMessage =
   | {
       type: "device-info";
       info: DeviceInfo;
     }
-  | { type: "auth-token"; token: string | null };
+  | { type: "auth-token"; token: string | null }
+  | { type: "enter-room"; room: WSRoom }
+  | { type: "leave-room"; room: WSRoom };
 
-export type User = { id: string; authToken?: string | null };
+export type User = {
+  id: string;
+  ws: WebSocket;
+  authToken?: string | null;
+  rooms: Set<WSRoom>;
+};

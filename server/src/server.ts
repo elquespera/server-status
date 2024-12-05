@@ -1,44 +1,22 @@
 import WebSocket from "ws";
 import { wsPort as port } from "./consts";
-import { WSMessage } from "./types";
+import { parseMessage } from "./messages";
 import { updateDeviceInfo } from "./update-device-info";
-import { addUser, removeUser, upgradeUser } from "./users";
-import { verifyMessage } from "./auth/verify-message";
+import { addUser, removeUser } from "./users";
+import { logger } from "./utils/logger";
 
 export const wss = new WebSocket.Server({ port });
 
 wss.on("connection", (ws: WebSocket) => {
-  const user = addUser();
+  const user = addUser(ws);
+  logger(`connected.\tOpen connections: ${wss.clients.size}`, user.id);
 
-  const log = (connect = true) =>
-    console.log(
-      `User ${user.id} ${connect ? "" : "dis"}connected.\tOpen connections: ${wss.clients.size}`,
-    );
-
-  log();
-
-  ws.on("message", (data) => {
-    try {
-      const parsedMessage = JSON.parse(data.toString()) as WSMessage;
-
-      const token = verifyMessage(parsedMessage);
-      upgradeUser(user.id, token);
-      console.log(`User ${user.id} ${token ? "logged in" : "logged out"}.`);
-    } catch (e) {
-      console.error("Error parsing Websocket message.");
-      console.error(e);
-    }
-  });
+  ws.on("message", (data) => parseMessage(data, user));
 
   ws.on("close", () => {
-    log(false);
+    logger(`disconnected.\tOpen connections: ${wss.clients.size}`, user.id);
     removeUser(user.id);
   });
 });
 
 updateDeviceInfo();
-
-export const broadcast = (message: WSMessage) =>
-  wss.clients.forEach((client) => {
-    client.send(JSON.stringify(message));
-  });

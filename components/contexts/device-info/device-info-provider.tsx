@@ -11,7 +11,7 @@ export function DeviceInfoProvider({ children }: PropsWithChildren) {
   const [cpus, setCpus] = useState<CPUData[]>([]);
   const [uptime, setUptime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const { message, state } = useWS();
+  const { message, state, sendMessage } = useWS();
 
   useEffect(() => {
     if (message?.type !== "device-info") return;
@@ -42,6 +42,13 @@ export function DeviceInfoProvider({ children }: PropsWithChildren) {
 
     return () => clearInterval(timer);
   }, [uptime]);
+
+  useEffect(() => {
+    if (state === "OPEN") {
+      sendMessage({ type: "enter-room", room: "device-info" });
+      return () => sendMessage({ type: "leave-room", room: "device-info" });
+    }
+  }, [sendMessage, state]);
 
   return (
     <DeviceInfoContext.Provider
