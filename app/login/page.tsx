@@ -8,8 +8,8 @@ export default async function LoginPage() {
   if (isAuth) redirect(routes.dashboard);
 
   return (
-    <main className="flex min-h-[80vh] flex-col items-center justify-center p-4 sm:p-8">
+    <div className="flex min-h-[80vh] flex-col items-center justify-center">
       <LoginForm />
-    </main>
+    </div>
   );
 }

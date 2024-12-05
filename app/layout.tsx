@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { BottomMenu } from "@/components/bottom-menu";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,7 +39,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <WSProvider>
-            <AuthProvider>{children}</AuthProvider>
+            <AuthProvider>
+              <main className="mb-16 flex flex-col items-center p-4 sm:p-8">
+                {children}
+                <BottomMenu className="fixed bottom-8 self-center" />
+              </main>
+            </AuthProvider>
           </WSProvider>
         </ThemeProvider>
       </body>

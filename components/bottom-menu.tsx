@@ -1,10 +1,8 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
+import { DashboardButton } from "./dashboard-button";
 import { ThemeToggle } from "./theme-toggle";
 import { Separator } from "./ui/separator";
-import { DashboardButton } from "./dashboard-button";
 
 export function BottomMenu({ className, ...props }: ComponentProps<"div">) {
   return (
@@ -15,9 +13,9 @@ export function BottomMenu({ className, ...props }: ComponentProps<"div">) {
       )}
       {...props}
     >
-      <div className="flex gap-1">
+      <div className="flex items-center gap-1">
         <ThemeToggle />
-        <Separator orientation="vertical" />
+        <Separator orientation="vertical" className="h-7" />
         <DashboardButton />
       </div>
     </div>
