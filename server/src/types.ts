@@ -45,6 +45,6 @@ export type WSMessage =
       type: "device-info";
       info: DeviceInfo;
     }
-  | { type: "auth-token"; token: string };
+  | { type: "auth-token"; token: string | null };
 
-export type User = { id: string; authToken?: string };
+export type User = { id: string; authToken?: string | null };

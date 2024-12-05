@@ -2,7 +2,8 @@
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { validateUser } from "@/server/src/auth/validate-user";
-import { jwtCookie, jwtSecret } from "@/consts/consts";
+import { jwtCookie } from "@/consts/consts";
+import { jwtSecret } from "@/server/src/consts";
 
 export async function signIn(username: string, password: string) {
   if (validateUser(username, password)) {

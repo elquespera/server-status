@@ -11,12 +11,7 @@ export function DeviceInfoProvider({ children }: PropsWithChildren) {
   const [cpus, setCpus] = useState<CPUData[]>([]);
   const [uptime, setUptime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const { message, state, sendMessage } = useWS();
-
-  useEffect(() => {
-    if (state === "OPEN")
-      sendMessage({ type: "auth-token", token: "Test hello!" });
-  }, [state, sendMessage]);
+  const { message, state } = useWS();
 
   useEffect(() => {
     if (message?.type !== "device-info") return;

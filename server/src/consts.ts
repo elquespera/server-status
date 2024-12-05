@@ -14,3 +14,5 @@ export const batteryStatuses: Record<string, string> = {
   "3": "DISCHARGING",
   "5": "FULL",
 };
+
+export const jwtSecret = process.env.JWT_SECRET || "";

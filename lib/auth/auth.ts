@@ -1,7 +1,8 @@
 "use server";
-import { jwtCookie, jwtSecret } from "@/consts/consts";
+import { jwtCookie } from "@/consts/consts";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import { jwtSecret } from "@/server/src/consts";
 
 export async function getAuth() {
   const cookie = (await cookies()).get(jwtCookie);
