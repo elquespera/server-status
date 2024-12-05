@@ -1,9 +1,16 @@
 import { verifyToken } from "./auth/verify-token";
 import { User, WSMessage, WSRoom } from "./types";
-import { addUserToRoom, authUser, removeUserFromRoom, users } from "./users";
+import {
+  addUserToRoom,
+  authUser,
+  isUserAuth,
+  removeUserFromRoom,
+  users,
+} from "./users";
 import WebSocket from "ws";
 import { logger } from "./utils/logger";
 import chalk from "chalk";
+import { spawnProcess } from "./exec-commands";
 
 export function broadcast(message: WSMessage, room?: WSRoom) {
   users.forEach(({ ws, rooms }) => {
@@ -24,6 +31,11 @@ export function parseMessage(data: WebSocket.RawData, user: User) {
           `${chalk.cyan("entered room")} ${chalk.italic(message.room)}`,
           user.id,
         );
+
+        if (message.room === "dashboard" && isUserAuth(user.id)) {
+          console.log("test proc");
+          spawnProcess("ls", ["-lha"]);
+        }
         break;
 
       case "leave-room":
