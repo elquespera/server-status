@@ -8,7 +8,6 @@ import { broadcast } from "./messages";
 import { DeviceInfo } from "./types";
 import { getUsersByRoom } from "./users";
 import { getCpuTemp } from "./utils/cpu-temp-info";
-import { logger } from "./utils/logger";
 import { getPlatformInfo } from "./utils/platform-info";
 
 export function updateDeviceInfo() {
@@ -42,7 +41,6 @@ export function updateDeviceInfo() {
 
       if (newInfo) {
         info = newInfo as DeviceInfo;
-        logger("Update device info");
         broadcast({ type: "device-info", info }, "device-info");
       }
     }

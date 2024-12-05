@@ -3,6 +3,7 @@ import { User, WSMessage, WSRoom } from "./types";
 import { addUserToRoom, authUser, removeUserFromRoom, users } from "./users";
 import WebSocket from "ws";
 import { logger } from "./utils/logger";
+import chalk from "chalk";
 
 export function broadcast(message: WSMessage, room?: WSRoom) {
   users.forEach(({ ws, rooms }) => {
@@ -19,18 +20,27 @@ export function parseMessage(data: WebSocket.RawData, user: User) {
     switch (message.type) {
       case "enter-room":
         addUserToRoom(user.id, message.room);
-        logger(`entered room ${message.room}`, user.id);
+        logger(
+          `${chalk.cyan("entered room")} ${chalk.italic(message.room)}`,
+          user.id,
+        );
         break;
 
       case "leave-room":
         removeUserFromRoom(user.id, message.room);
-        logger(`left room ${message.room}`, user.id);
+        logger(
+          `${chalk.redBright("left room")} ${chalk.italic(message.room)}`,
+          user.id,
+        );
         break;
 
       case "auth-token":
         const token = verifyToken(message.token);
         authUser(user.id, token);
-        logger(`${token ? "logged in" : "logged out"}.`, user.id);
+        logger(
+          token ? chalk.cyan("logged in") : chalk.redBright("logged out"),
+          user.id,
+        );
         break;
     }
   } catch (e) {
