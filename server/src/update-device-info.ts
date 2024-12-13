@@ -1,4 +1,4 @@
-import { cpus, freemem, uptime } from "node:os";
+import os from "node:os";
 import {
   cpuTempInterval,
   liveInfoInterval,
@@ -9,10 +9,12 @@ import { DeviceInfo } from "./types";
 import { getUsersByRoom } from "./users";
 import { getCpuTemp } from "./utils/cpu-temp-info";
 import { getPlatformInfo } from "./utils/platform-info";
+import { calcCpuUsage } from "./utils/calc-cpu-usage";
 
 export function updateDeviceInfo() {
   let timeStamp = Date.now();
   let info: DeviceInfo | undefined;
+  let cpus = os.cpus();
 
   const loop = async () => {
     if (getUsersByRoom("device-info").length) {
@@ -21,12 +23,17 @@ export function updateDeviceInfo() {
       let newInfo: Partial<DeviceInfo> | undefined;
 
       if (ticks % liveInfoInterval === 0) {
+        const newCpus = os.cpus();
         newInfo = {
           ...info,
-          cpus: cpus(),
-          freeMem: freemem(),
-          uptime: uptime(),
+          cpus: cpus.map(({ times, ...rest }, index) => ({
+            usage: calcCpuUsage(times, newCpus[index].times),
+            ...rest,
+          })),
+          freeMem: os.freemem(),
+          uptime: os.uptime(),
         };
+        cpus = newCpus;
       }
 
       if (ticks % cpuTempInterval === 0) {

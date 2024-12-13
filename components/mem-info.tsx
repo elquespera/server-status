@@ -1,5 +1,5 @@
 "use client";
-import { hMem } from "@/lib/device-info/human-mem";
+import { hMem } from "@/lib/human-mem";
 import { ComponentProps } from "react";
 import { useDeviceInfo } from "./contexts/device-info/device-info-context";
 import { FilledBar } from "./filled-bar";

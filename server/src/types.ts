@@ -1,10 +1,10 @@
-import type { CpuInfo } from "node:os";
 import WebSocket from "ws";
 
 export type CPUData = { model: string; speed: number; usage: number };
 
-export type OSInfo = {
+export type DeviceInfo = {
   totalMem: number;
+  cpus: CPUData[];
   freeMem: number;
   uptime: number;
   platform: string;
@@ -15,8 +15,6 @@ export type OSInfo = {
   storage?: TermuxStorage;
   cpuTemp?: number[];
 };
-
-export type DeviceInfo = OSInfo & { cpus: CpuInfo[] };
 
 export type TermuxBattery = {
   level: number;
