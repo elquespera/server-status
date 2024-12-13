@@ -22,7 +22,7 @@ export function updateDeviceInfo() {
 
       let newInfo: Partial<DeviceInfo> | undefined;
 
-      if (ticks % liveInfoInterval === 0) {
+      if (ticks % liveInfoInterval === 0 || !info) {
         const newCpus = os.cpus();
         newInfo = {
           ...info,
@@ -36,12 +36,12 @@ export function updateDeviceInfo() {
         cpus = newCpus;
       }
 
-      if (ticks % cpuTempInterval === 0) {
+      if (ticks % cpuTempInterval === 0 || !info) {
         const cpuTemp = await getCpuTemp();
         newInfo = { ...info, ...newInfo, cpuTemp };
       }
 
-      if (ticks % platformInfoInterval === 0) {
+      if (ticks % platformInfoInterval === 0 || !info) {
         const termuxInfo = await getPlatformInfo();
         newInfo = { ...info, ...newInfo, ...termuxInfo };
       }
