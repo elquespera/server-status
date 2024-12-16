@@ -1,10 +1,10 @@
+import chalk from "chalk";
 import WebSocket from "ws";
 import { wsPort as port } from "./consts";
 import { parseMessage } from "./messages";
 import { updateDeviceInfo } from "./update-device-info";
 import { addUser, removeUser } from "./users";
 import { logger } from "./utils/logger";
-import chalk from "chalk";
 
 export const wss = new WebSocket.Server({ port });
 
