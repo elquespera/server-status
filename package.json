@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "check": "next lint && tsc",
-    "rebuild": "git reset --hard && git pull && npm i && next build && pm2 reload server-status && cd ./server && npm run build"
+    "deploy": "git reset --hard && git pull && npm i && next build && pm2 reload server-status && cd ./server && npm run build"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",
