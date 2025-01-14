@@ -1,14 +1,13 @@
-export function hMem(bytes: number, si = true) {
+export function hMem(bytes: number, si = true, precision = 2) {
   const thresh = si ? 1024 : 1000;
-  const dp = 2;
 
   if (Math.abs(bytes) < thresh) {
-    return { size: bytes.toFixed(dp), unit: "B" };
+    return { size: bytes.toFixed(precision), unit: "B" };
   }
 
   const units = ["K", "M", "G", "T", "P", "E", "Z", "Y"];
   let u = -1;
-  const r = 10 ** dp;
+  const r = 10 ** precision;
 
   do {
     bytes /= thresh;
@@ -18,5 +17,5 @@ export function hMem(bytes: number, si = true) {
     u < units.length - 1
   );
 
-  return { size: bytes.toFixed(dp), unit: units[u] };
+  return { size: bytes.toFixed(precision), unit: units[u] };
 }

@@ -19,8 +19,8 @@ export function StorageInfo({ ...props }: ComponentProps<"div">) {
           <div className="flex items-center gap-[1ch] self-end font-mono text-xs md:text-sm">
             <span>
               <span className="font-bold">{label}</span>:{" "}
-              {hMem(total, false).size}
-              <i className="italic">{hMem(total, false).unit}</i>
+              {hMem(total, false, 1).size}
+              <i className="italic">{hMem(total, false, 1).unit}</i>
             </span>
           </div>
 
@@ -31,14 +31,15 @@ export function StorageInfo({ ...props }: ComponentProps<"div">) {
             className={cn(!total && "animate-pulse")}
             startDecoration={
               <>
-                {hMem(used, false).size}
-                <i>{hMem(used, false).unit}</i>
+                {((used / total) * 100).toFixed(1)}%,{" "}
+                {hMem(used, false, 1).size}
+                <i>{hMem(used, false, 1).unit}</i>
               </>
             }
             endDecoration={
               <>
-                {hMem(available, false).size}
-                <i>{hMem(available, false).unit}</i>
+                {hMem(available, false, 1).size}
+                <i>{hMem(available, false, 1).unit}</i>
               </>
             }
           />
