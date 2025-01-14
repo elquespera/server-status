@@ -2,6 +2,14 @@ import WebSocket from "ws";
 
 export type CPUData = { model: string; speed: number; usage: number };
 
+export type StorageInfo = {
+  label: string;
+  mount: string;
+  total: number;
+  used: number;
+  available: number;
+};
+
 export type DeviceInfo = {
   totalMem: number;
   cpus: CPUData[];
@@ -10,6 +18,7 @@ export type DeviceInfo = {
   platform: string;
   arch: string;
   osType: string;
+  drives: StorageInfo[];
   battery?: TermuxBattery;
   wifi?: TermuxWifiInfo;
   storage?: TermuxStorage;

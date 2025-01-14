@@ -40,6 +40,7 @@ export function DeviceInfoProvider({ children }: PropsWithChildren) {
       value={{
         live: state === "OPEN",
         cpus: deviceStats?.cpus ?? [],
+        drives: deviceStats?.drives ?? [],
         totalMem: deviceStats?.totalMem ?? 0,
         freeMem: deviceStats?.freeMem ?? 0,
         uptime: Math.floor(uptime + elapsedTime),

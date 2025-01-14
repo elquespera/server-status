@@ -10,6 +10,7 @@ import { getUsersByRoom } from "./users";
 import { getCpuTemp } from "./utils/cpu-temp-info";
 import { getPlatformInfo } from "./utils/platform-info";
 import { calcCpuUsage } from "./utils/calc-cpu-usage";
+import { getStorageInfo } from "./utils/storage-info";
 
 export function updateDeviceInfo() {
   let timeStamp = Date.now();
@@ -23,6 +24,7 @@ export function updateDeviceInfo() {
       let newInfo: Partial<DeviceInfo> | undefined;
 
       if (ticks % liveInfoInterval === 0 || !info) {
+        const drives = await getStorageInfo();
         const newCpus = os.cpus();
         newInfo = {
           ...info,
@@ -32,6 +34,7 @@ export function updateDeviceInfo() {
           })),
           freeMem: os.freemem(),
           uptime: os.uptime(),
+          drives,
         };
         cpus = newCpus;
       }

@@ -9,11 +9,11 @@ export const cpuTempInterval = Number(process.env.CPU_TEMP_INTERVAL) ?? 10;
 export const platformInfoInterval =
   Number(process.env.PLATFORM_INFO_INTERVAL) ?? 20;
 
-export const diskMounts = (process.env.DISK_MOUNTS || "")
+export const driveMounts = (process.env.DISK_MOUNTS || "")
   .split(",")
-  .map((mount, id) => {
-    const [name, dir] = mount.split(":");
-    return { id, name, dir };
+  .map((entry, id) => {
+    const [label, mount] = entry.split(":");
+    return { id, label, mount };
   });
 
 export const batteryStatuses: Record<string, string> = {

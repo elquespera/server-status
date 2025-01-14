@@ -66,10 +66,10 @@ const parseWifiInfo = (dump: string): TermuxWifiInfo => {
 };
 
 const mockBattery = (): TermuxBattery => ({
-  level: random(),
+  level: 75,
   powered: true,
   status: "CHARGING",
-  temperature: random(10, 20),
+  temperature: 26,
 });
 
 const parseBattery = (dump: string): TermuxBattery => {
