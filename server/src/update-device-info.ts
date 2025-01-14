@@ -55,7 +55,7 @@ export function updateDeviceInfo() {
         newInfo = { ...info, ...newInfo, ...termuxInfo };
       }
 
-      if (ticks % networkInfoInterval === 1) {
+      if (ticks % networkInfoInterval === 10) {
         const network = await getNetworkInfo();
         newInfo = { ...info, ...newInfo, network };
       }
