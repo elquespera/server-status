@@ -3,6 +3,7 @@ import {
   cpuTempInterval,
   liveInfoInterval,
   platformInfoInterval,
+  storageInfoInterval,
 } from "./consts";
 import { broadcast } from "./messages";
 import { DeviceInfo } from "./types";
@@ -24,7 +25,6 @@ export function updateDeviceInfo() {
       let newInfo: Partial<DeviceInfo> | undefined;
 
       if (ticks % liveInfoInterval === 0 || !info) {
-        const drives = await getStorageInfo();
         const newCpus = os.cpus();
         newInfo = {
           ...info,
@@ -34,9 +34,13 @@ export function updateDeviceInfo() {
           })),
           freeMem: os.freemem(),
           uptime: os.uptime(),
-          drives,
         };
         cpus = newCpus;
+      }
+
+      if (ticks % storageInfoInterval === 0 || !info) {
+        const storage = await getStorageInfo();
+        newInfo = { ...info, ...newInfo, storage };
       }
 
       if (ticks % cpuTempInterval === 0 || !info) {

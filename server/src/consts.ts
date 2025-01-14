@@ -4,6 +4,9 @@ export const isTermux = process.env.IS_TERMUX === "true";
 
 export const liveInfoInterval = Number(process.env.LIVE_INFO_INTERVAL) ?? 2;
 
+export const storageInfoInterval =
+  Number(process.env.STORAGE_INFO_INTERVAL) ?? 10;
+
 export const cpuTempInterval = Number(process.env.CPU_TEMP_INTERVAL) ?? 10;
 
 export const platformInfoInterval =

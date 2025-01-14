@@ -18,7 +18,7 @@ export type DeviceInfo = {
   platform: string;
   arch: string;
   osType: string;
-  drives: StorageInfo[];
+  storage: StorageInfo[];
   battery?: TermuxBattery;
   wifi?: TermuxWifiInfo;
   cpuTemp?: number[];

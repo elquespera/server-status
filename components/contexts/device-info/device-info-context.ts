@@ -6,7 +6,7 @@ type TDeviceInfoContext = { live: boolean } & DeviceInfo;
 const defaultDeviceInfoContext: TDeviceInfoContext = {
   live: false,
   cpus: [],
-  drives: [],
+  storage: [],
   totalMem: 0,
   freeMem: 0,
   uptime: 0,

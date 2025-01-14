@@ -7,14 +7,14 @@ import { FilledBar } from "./filled-bar";
 import { Heading } from "./heading";
 
 export function StorageInfo({ ...props }: ComponentProps<"div">) {
-  const { drives } = useDeviceInfo();
+  const { storage } = useDeviceInfo();
 
   return (
     <div {...props}>
       <div className="mb-2 grid grid-cols-2 items-baseline gap-2">
         <Heading>Storage</Heading>
       </div>
-      {drives?.map(({ label, used, available, total }) => (
+      {storage?.map(({ label, used, available, total }) => (
         <div key={label} className="mb-4 flex flex-col gap-2">
           <div className="flex items-center gap-[1ch] self-end font-mono text-xs md:text-sm">
             <span>
