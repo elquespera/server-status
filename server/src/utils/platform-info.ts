@@ -2,28 +2,21 @@ import { arch, type as osType, platform, totalmem } from "node:os";
 import { runBashCommand } from "./bash-command";
 import { batteryStatuses, isTermux } from "../consts";
 import { parseDump } from "./parse-dump";
-import { TermuxBattery, TermuxStorage, TermuxWifiInfo } from "../types";
+import { TermuxBattery, TermuxWifiInfo } from "../types";
 
 export async function getPlatformInfo() {
   let battery: TermuxBattery | undefined;
   let wifi: TermuxWifiInfo | undefined;
-  let storage: TermuxStorage | undefined;
 
   if (isTermux) {
     try {
-      const [
-        { stdout: wifiRaw },
-        { stdout: batteryRaw },
-        { stdout: storageRaw },
-      ] = await Promise.all([
+      const [{ stdout: wifiRaw }, { stdout: batteryRaw }] = await Promise.all([
         runBashCommand("dumpsys wifi"),
         runBashCommand("dumpsys battery"),
-        runBashCommand("dumpsys diskstats"),
       ]);
 
       wifi = parseWifiInfo(wifiRaw);
       battery = parseBattery(batteryRaw);
-      storage = parseStorage(storageRaw);
     } catch (error) {
       console.error(error);
     }
@@ -36,7 +29,6 @@ export async function getPlatformInfo() {
     osType: osType(),
     wifi: wifi || mockWifiInfo(),
     battery: battery || mockBattery(),
-    storage: storage || mockStorage(),
   };
 }
 
@@ -85,29 +77,6 @@ const parseBattery = (dump: string): TermuxBattery => {
     ].some((key) => parsed[key] === "true"),
     temperature: (parseFloat(parsed["temperature"]) ?? 0) / 10,
     status: batteryStatuses[parsed["status"]] ?? parsed["status"],
-  };
-};
-
-const mockStorage = (): TermuxStorage => ({
-  free: random(100000, 300000),
-  total: 300000,
-  writeSpeed: random(10512, 50048),
-});
-
-const parseStorage = (dump: string): TermuxStorage => {
-  const parsed = parseDump(dump);
-
-  const writeSpeedKey = Object.keys(parsed).find((key) =>
-    key.startsWith("Recent Disk Write Speed"),
-  );
-
-  const dataValue = parsed["Data-Free"];
-  const [free, total] = dataValue?.split(" / ").map((x) => parseInt(x.trim()));
-
-  return {
-    free: 1000 * (free ?? 0),
-    total: 1000 * (total ?? 1),
-    writeSpeed: Number(writeSpeedKey?.split(" = ")[1]) ?? 0,
   };
 };
 

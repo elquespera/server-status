@@ -20,8 +20,6 @@ export async function getStorageInfo(): Promise<StorageInfo[]> {
           };
       })
       .filter((x) => !!x);
-
-    console.log(result);
     return result;
   } catch (error) {
     console.error(error);

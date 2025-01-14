@@ -49,7 +49,6 @@ export function DeviceInfoProvider({ children }: PropsWithChildren) {
         osType: deviceStats?.osType ?? "",
         battery: deviceStats?.battery,
         wifi: deviceStats?.wifi,
-        storage: deviceStats?.storage,
         cpuTemp: deviceStats?.cpuTemp,
       }}
     >

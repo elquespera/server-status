@@ -14,12 +14,12 @@ export function StorageInfo({ ...props }: ComponentProps<"div">) {
       <div className="mb-2 grid grid-cols-2 items-baseline gap-2">
         <Heading>Storage</Heading>
       </div>
-      {drives?.map(({ label, mount, used, available, total }) => (
+      {drives?.map(({ label, used, available, total }) => (
         <div key={label} className="mb-4 flex flex-col gap-2">
           <div className="flex items-center gap-[1ch] self-end font-mono text-xs md:text-sm">
             <span>
-              <span className="font-bold">{label}</span>{" "}
-              <i className="italic">({mount})</i>: {hMem(total, false).size}
+              <span className="font-bold">{label}</span>:{" "}
+              {hMem(total, false).size}
               <i className="italic">{hMem(total, false).unit}</i>
             </span>
           </div>

@@ -21,7 +21,6 @@ export type DeviceInfo = {
   drives: StorageInfo[];
   battery?: TermuxBattery;
   wifi?: TermuxWifiInfo;
-  storage?: TermuxStorage;
   cpuTemp?: number[];
 };
 
@@ -36,12 +35,6 @@ export type TermuxWifiInfo = {
   ssid: string;
   frequency: number;
   speed: number;
-};
-
-export type TermuxStorage = {
-  free: number;
-  total: number;
-  writeSpeed: number;
 };
 
 export type PropsWithClassName = {

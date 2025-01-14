@@ -3,7 +3,7 @@ import { DeviceInfoProvider } from "@/components/contexts/device-info/device-inf
 import { CPUInfo } from "@/components/cpu-info";
 import { MemInfo } from "@/components/mem-info";
 import { OsInfo } from "@/components/os-info";
-import { StorageInfo } from "@/components/storage-info copy";
+import { StorageInfo } from "@/components/storage-info";
 
 export default function HomePage() {
   return (
