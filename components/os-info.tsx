@@ -1,11 +1,12 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 import { useDeviceInfo } from "./contexts/device-info/device-info-context";
 import WifiIcon from "./icons/wifi-icon";
 import { Skeleton } from "./ui/skeleton";
 
 export function OsInfo() {
-  const { live, uptime, platform, arch, osType, wifi } = useDeviceInfo();
+  const { live, uptime, platform, arch, osType, network } = useDeviceInfo();
 
   const formatTime = (t: number) => String(Math.floor(t)).padStart(2, "0");
 
@@ -48,15 +49,21 @@ export function OsInfo() {
         />
       </pre>
       <div className="flex items-center gap-2 text-xs md:text-sm">
-        <WifiIcon />
-        {wifi ? (
+        <WifiIcon className="shrink-0" />
+        {network ? (
           <>
-            <span>
-              {(wifi.frequency / 1000).toFixed(0)}
-              <i>GHz,</i>
+            <span className="inline-flex items-center gap-1">
+              {network.ping.toFixed(0)} <i>ms, </i>
             </span>
-            <span>
-              {wifi.speed.toFixed(0)} <i>Mb/s</i>
+            <span className="inline-flex items-center gap-1">
+              <ArrowDownIcon />
+              {network.downloadSpeed.split(" ")[0]}{" "}
+              <i>{network.downloadSpeed.split(" ")[1]}, </i>
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <ArrowUpIcon />
+              {network.uploadSpeed.split(" ")[0]}{" "}
+              <i>{network.uploadSpeed.split(" ")[1]}</i>
             </span>
           </>
         ) : (

@@ -9,6 +9,11 @@ export const storageInfoInterval =
 
 export const cpuTempInterval = Number(process.env.CPU_TEMP_INTERVAL) ?? 10;
 
+export const networkInfoInterval =
+  Number(process.env.NETWORK_INFO_INTERVAL) ?? 600;
+
+export const mockNetwork = process.env.MOCK_NETWORK === "true";
+
 export const platformInfoInterval =
   Number(process.env.PLATFORM_INFO_INTERVAL) ?? 20;
 

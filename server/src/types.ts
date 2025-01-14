@@ -10,6 +10,14 @@ export type StorageInfo = {
   available: number;
 };
 
+export type NetworkInfo = {
+  host: string;
+  distance: number;
+  ping: number;
+  downloadSpeed: string;
+  uploadSpeed: string;
+};
+
 export type DeviceInfo = {
   totalMem: number;
   cpus: CPUData[];
@@ -19,6 +27,8 @@ export type DeviceInfo = {
   arch: string;
   osType: string;
   storage: StorageInfo[];
+  network?: NetworkInfo;
+
   battery?: TermuxBattery;
   wifi?: TermuxWifiInfo;
   cpuTemp?: number[];

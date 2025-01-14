@@ -2,6 +2,7 @@ import os from "node:os";
 import {
   cpuTempInterval,
   liveInfoInterval,
+  networkInfoInterval,
   platformInfoInterval,
   storageInfoInterval,
 } from "./consts";
@@ -12,6 +13,7 @@ import { getCpuTemp } from "./utils/cpu-temp-info";
 import { getPlatformInfo } from "./utils/platform-info";
 import { calcCpuUsage } from "./utils/calc-cpu-usage";
 import { getStorageInfo } from "./utils/storage-info";
+import { getNetworkInfo } from "./utils/network-info";
 
 export function updateDeviceInfo() {
   let timeStamp = Date.now();
@@ -51,6 +53,11 @@ export function updateDeviceInfo() {
       if (ticks % platformInfoInterval === 0 || !info) {
         const termuxInfo = await getPlatformInfo();
         newInfo = { ...info, ...newInfo, ...termuxInfo };
+      }
+
+      if (ticks % networkInfoInterval === 1) {
+        const network = await getNetworkInfo();
+        newInfo = { ...info, ...newInfo, network };
       }
 
       if (newInfo) {

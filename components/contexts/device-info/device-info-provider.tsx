@@ -40,13 +40,15 @@ export function DeviceInfoProvider({ children }: PropsWithChildren) {
       value={{
         live: state === "OPEN",
         cpus: deviceStats?.cpus ?? [],
-        storage: deviceStats?.storage ?? [],
         totalMem: deviceStats?.totalMem ?? 0,
         freeMem: deviceStats?.freeMem ?? 0,
         uptime: Math.floor(uptime + elapsedTime),
         platform: deviceStats?.platform ?? "",
         arch: deviceStats?.arch ?? "",
         osType: deviceStats?.osType ?? "",
+        storage: deviceStats?.storage ?? [],
+        network: deviceStats?.network,
+
         battery: deviceStats?.battery,
         wifi: deviceStats?.wifi,
         cpuTemp: deviceStats?.cpuTemp,
